@@ -35,7 +35,7 @@ export default function ProjectCard({ project, index }) {
       </div>
 
       <Link
-        href={`/projects/${project._id}`}
+        href={`/details/${project._id}`}
         className="text-center text-sm font-semibold text-purple-400 hover:text-white border border-purple-700 rounded-full py-2 transition-colors"
       >
         View Details
