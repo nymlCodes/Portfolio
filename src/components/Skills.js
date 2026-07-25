@@ -5,18 +5,18 @@ import { FaBook } from 'react-icons/fa'
 
 // Your skill data - update the levels anytime!
 const skills = [
-  { name: 'HTML5', level: 85, color: '#f97316' },
-  { name: 'CSS3', level: 85, color: '#3b82f6' },
+  { name: 'HTML5', level: 95, color: '#f97316' },
+  { name: 'CSS3', level: 89, color: '#3b82f6' },
   { name: 'Tailwind CSS', level: 80, color: '#38bdf8' },
-  { name: 'JavaScript-ES6', level: 65, color: '#facc15' },
-  { name: 'React.js', level: 60, color: '#61dafb' },
-  { name: 'Next.js', level: 80, color: '#FFC0CA' },
+  { name: 'JavaScript-ES6', level: 85, color: '#facc15' },
+  { name: 'TypeScript', level: 60, color: '#3178C6' },
+  { name: 'React.js', level: 80, color: '#61dafb' },
+  { name: 'Next.js', level: 87, color: '#FFC0CA' },
   { name: 'Node.js', level: 55, color: '#68a063' },
-  { name: 'Express.js', level: 50, color: '#a3a3a3' },
-  { name: 'Git & GitHub', level: 60, color: '#f97316' },
-  { name: 'MongoDB', level: 40, color: '#a97316' },
+  { name: 'Express.js', level: 70, color: '#a3a3a3' },
+  { name: 'Git & GitHub', level: 80, color: '#f97316' },
+  { name: 'MongoDB', level: 70, color: '#4DB33D' },
 ]
-
 // Tech tools shown as badges
 const tools = [
   'VS Code', 'GitHub', 'Figma', 'Chrome DevTools',
@@ -94,10 +94,10 @@ export default function Skills() {
               </h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li className="flex items-center gap-2">
-                  <span className="text-purple-400">→</span> Roled based authentication (RBAC)
+                  <span className="text-purple-400">→</span> Roled Based Access Control (RBAC)
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-purple-400">→</span> MongoDB
+                  <span className="text-purple-400">→</span> TypeScript
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="text-purple-400">→</span> Payment Integration

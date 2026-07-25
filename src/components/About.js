@@ -94,7 +94,7 @@ export default function About() {
                   </span>
                 }
               />
-              <InfoRow label="Focus" value="MERN Stack" />
+              <InfoRow label="Focus" value="Full Stack" />
               <InfoRow label="Status" value="Open to Opportunities" highlight />
             </div>
           </div>
