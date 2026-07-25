@@ -1,8 +1,8 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Neyamul Islam | Frontend Developer',
-  description: 'Portfolio of Neyamul Islam - Frontend Developer from Bangladesh',
+  title: 'Neyamul Islam | MERN Stack Developer',
+  description: 'Portfolio of Neyamul Islam - MERN Stack Developer',
   icons:{
     icon:'/favicon.png'
   }

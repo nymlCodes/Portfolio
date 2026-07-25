@@ -195,7 +195,7 @@ export default function ProjectDetailsClient({ project }) {
                             <FaGithub /> Client Code
                         </motion.a>
                     )}
-                    {project.server && (
+                    {/* {project.server && (
                         <motion.a
                             whileHover={{ scale: 1.05, y: -2 }}
                             whileTap={{ scale: 0.96 }}
@@ -206,7 +206,7 @@ export default function ProjectDetailsClient({ project }) {
                         >
                             <FaServer /> Server Code
                         </motion.a>
-                    )}
+                    )} */}
                 </motion.div>
 
                 {/* Technologies */}
