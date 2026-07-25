@@ -1,8 +1,5 @@
 'use client'
-import logo from '../../public/logo.png'
-import Image from 'next/image'
 import { useState, useEffect } from 'react'
-
 
 // Navigation links - each one scrolls to a section by ID
 const navLinks = [
@@ -29,17 +26,16 @@ export default function Navbar() {
     <nav className={`navbar transition-all duration-300 ${scrolled ? 'py-3 shadow-lg shadow-purple-900/20' : 'py-5'}`}>
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
 
-        {/* Logo */}
+        {/* Logo text */}
         <a href="#home" className="text-xl font-bold gradient-text">
-          {/* Neyamul<span className="text-white"></span> */}
-          <Image src={logo} height={120} width={120} className='w-full h-auto object-contain animate-pulse' />
+          Neyamul<span className="text-white">.</span>
         </a>
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
-              key={link.href}
+            
+             <a key={link.href}
               href={link.href}
               className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm font-medium"
             >
@@ -69,8 +65,8 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden bg-dark/95 backdrop-blur-lg border-t border-purple-900/20 px-6 py-4">
           {navLinks.map((link) => (
-            <a
-              key={link.href}
+            
+             <a key={link.href}
               href={link.href}
               className="block py-3 text-gray-400 hover:text-purple-400 transition-colors"
               onClick={() => setMenuOpen(false)}
