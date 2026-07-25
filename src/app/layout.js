@@ -4,7 +4,7 @@ export const metadata = {
   title: 'Neyamul Islam | Frontend Developer',
   description: 'Portfolio of Neyamul Islam - Frontend Developer from Bangladesh',
   icons:{
-    icon:'/logo.png'
+    icon:'/favicon.png'
   }
 }
 

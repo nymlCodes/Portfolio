@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { FaGlobeAmericas, FaLinkedin, FaGithub, FaInstagram, FaCheckCircle } from 'react-icons/fa'
+import { FaGlobeAmericas, FaLinkedin, FaGithub, FaInstagram, FaCheckCircle, FaEnvelopeOpen, FaPhoneAlt, FaWhatsapp, FaEnvelope } from 'react-icons/fa'
 
 export default function Contact() {
   const sectionRef = useRef(null)
@@ -62,31 +62,40 @@ export default function Contact() {
             <h3 className="text-xl font-bold text-white mb-6">Contact Information</h3>
 
             <div className="space-y-4 mb-8">
-              <ContactItem
+              {/* <ContactItem
                 icon={<FaGlobeAmericas />}
                 label="Location"
                 value="Bangladesh"
-              />
+              /> */}
+
               <ContactItem
                 icon={<FaLinkedin />}
                 label="LinkedIn"
                 value="linkedin.com/in/neya-mul"
                 href="https://www.linkedin.com/in/neya-mul/"
               />
+
               <ContactItem
-                icon={<FaGithub />}
-                label="GitHub"
-                value="github.com/neya-mul"
-                href="https://github.com/neya-mul"
+                icon={<FaEnvelope />}
+                label="Email"
+                value="neyamulislam946@gmail.com"
+                href="mailto:your.email@example.com"
               />
+
               <ContactItem
-                icon={<FaInstagram />}
-                label="Instagram"
-                value="@n.for.neyamul"
-                href="https://www.instagram.com/n.for.neyamul"
+                icon={<FaPhoneAlt />}
+                label="Phone"
+                value="+880 1874062550"
+                href="tel:+8801874062550"
+              />
+
+              <ContactItem
+                icon={<FaWhatsapp />}
+                label="WhatsApp"
+                value="+880 1874062550"
+                href="https://wa.me/8801874062550"
               />
             </div>
-
             {/* Availability badge */}
             <div className="flex items-center gap-3 p-4 bg-green-900/20 border border-green-700/30 rounded-2xl">
               <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />

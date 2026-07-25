@@ -120,9 +120,9 @@ export default function Education() {
                             <GoalItem done label="JavaScript Basics" />
                             <GoalItem done label="React JS" />
                             <GoalItem done label="Tailwind CSS" />
-                            <GoalItem label="Next.js" active />
-                            <GoalItem label="TypeScript" />
-                            <GoalItem label="Node.js & Express" active/>
+                            <GoalItem done label="Next.js" />
+                            <GoalItem label="TypeScript" active />
+                            <GoalItem label="Node.js & Express" active />
                             <GoalItem label="MongoDB" active />
                         </div>
                     </div>
