@@ -74,7 +74,7 @@ export default function About() {
               using code and design.
             </p>
             <p className="text-gray-400 leading-relaxed mb-4">
-              I work with HTML, CSS, JavaScript, and React to create responsive and
+              I work with JavaScript, TypeScript, NextJS, TailwindCSS, ExpessJS and MongoDB to create responsive and
               visually appealing websites. I'm always learning new technologies to
               level up my skills.
             </p>
