@@ -1,4 +1,5 @@
 import './globals.css'
+import HomeClient from '../components/HomeClient'
 
 export const metadata = {
   title: 'Neyamul Islam | MERN Stack Developer',
@@ -17,7 +18,9 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <HomeClient>{children}</HomeClient>
+      </body>
     </html>
   )
 }

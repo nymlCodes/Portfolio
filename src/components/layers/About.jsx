@@ -1,35 +1,12 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { SiNextdotjs } from 'react-icons/si'
 import { FiPackage } from 'react-icons/fi'
-import { FaDumbbell, FaGlobeAsia, FaMapMarkerAlt, FaSmileBeam } from 'react-icons/fa'
+import { FaDumbbell, FaGlobeAsia, FaMapMarkerAlt } from 'react-icons/fa'
 
 export default function About() {
-  const sectionRef = useRef(null)
-
-  // Reveal animation when section enters the viewport
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    // Observe all elements with class "reveal"
-    const reveals = sectionRef.current?.querySelectorAll('.reveal')
-    reveals?.forEach((el) => observer.observe(el))
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section id="about" ref={sectionRef} className="py-24">
+    <section id="about" className="py-24">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* Section heading */}
@@ -74,7 +51,7 @@ export default function About() {
               using code and design.
             </p>
             <p className="text-gray-400 leading-relaxed mb-4">
-              I work with JavaScript, TypeScript, NextJS, TailwindCSS, ExpessJS and MongoDB to create responsive and
+              I work with JavaScript, TypeScript, NextJS, TailwindCSS, ExpressJS and MongoDB to create responsive and
               visually appealing websites. I'm always learning new technologies to
               level up my skills.
             </p>
@@ -108,7 +85,7 @@ export default function About() {
 // Small stat card component
 function StatCard({ number, label, icon }) {
   return (
-    <div className="bg-dark/50 rounded-2xl p-4 text-center">
+    <div className="bg-[rgba(10,10,15,0.5)] rounded-2xl p-4 text-center">
       <div className="text-2xl mb-1 flex justify-center text-purple-400">{icon}</div>
       <div className="text-xl font-bold text-white">{number}</div>
       <div className="text-xs text-gray-500">{label}</div>

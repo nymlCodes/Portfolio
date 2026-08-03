@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 // This component creates the animated background:
 // - 3 glowing orbs that move slowly
 // - A grid pattern overlay
@@ -24,9 +26,18 @@ export default function AnimatedBackground() {
   )
 }
 
-// Creates 15 particles at random positions with random speeds
+// Creates floating particles.
+// Optimizes particle count on mobile screens to prevent layout and paint bottlenecks.
 function Particles() {
-  const particles = Array.from({ length: 150 }, (_, i) => ({
+  const [particleCount, setParticleCount] = useState(0)
+
+  useEffect(() => {
+    // Only run on client side. Detect if mobile screen size.
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    setParticleCount(isMobile ? 15 : 60)
+  }, [])
+
+  const particles = Array.from({ length: particleCount }, (_, i) => ({
     id: i,
     left: `${Math.random() * 100}%`,
     duration: `${8 + Math.random() * 12}s`,

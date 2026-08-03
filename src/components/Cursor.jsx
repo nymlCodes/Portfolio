@@ -1,15 +1,35 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function CustomCursor() {
   const dotRef = useRef(null)       // the small sharp dot that follows exactly
   const ringRef = useRef(null)      // the big ring that lags behind smoothly
   const trailsRef = useRef([])      // array of trail dots
+  const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
+    // Only enable custom cursor if the device has a fine pointer (mouse/trackpad)
+    const mediaQuery = window.matchMedia('(pointer: fine)')
+    setEnabled(mediaQuery.matches)
+
+    const handleChange = (e) => {
+      setEnabled(e.matches)
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!enabled) return
+
     const dot = dotRef.current
     const ring = ringRef.current
+
+    if (!dot || !ring) return
 
     // Current real mouse position
     let mouseX = 0
@@ -20,7 +40,7 @@ export default function CustomCursor() {
     let ringY = 0
 
     // Trail dots - each one lags a little more than the last
-    const trailPositions = trailsRef.current.map(() => ({ x: 0, y: 0 }))
+    const trailPositions = Array.from({ length: 8 }, () => ({ x: 0, y: 0 }))
 
     // Hide the default browser cursor
     document.body.style.cursor = 'none'
@@ -85,6 +105,8 @@ export default function CustomCursor() {
     document.addEventListener('mouseleave', onMouseLeave)
     document.addEventListener('mouseenter', onMouseEnter)
 
+    let animationFrameId
+
     // Animation loop - smoothly moves the ring and trail toward mouse
     function animate() {
       // Ring follows with lerp (linear interpolation) - feels smooth and floaty
@@ -97,6 +119,7 @@ export default function CustomCursor() {
 
       // Each trail dot follows the one before it
       trailsRef.current.forEach((el, i) => {
+        if (!el) return
         const target = i === 0
           ? { x: mouseX, y: mouseY }
           : trailPositions[i - 1]
@@ -114,7 +137,7 @@ export default function CustomCursor() {
         el.style.height = size
       })
 
-      requestAnimationFrame(animate)
+      animationFrameId = requestAnimationFrame(animate)
     }
 
     animate()
@@ -128,8 +151,11 @@ export default function CustomCursor() {
       document.removeEventListener('mouseup',    onMouseUp)
       document.removeEventListener('mouseleave', onMouseLeave)
       document.removeEventListener('mouseenter', onMouseEnter)
+      cancelAnimationFrame(animationFrameId)
     }
-  }, [])
+  }, [enabled])
+
+  if (!enabled) return null
 
   return (
     <>

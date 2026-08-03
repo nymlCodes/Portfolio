@@ -1,30 +1,10 @@
 'use client'
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import ProjectCard from './ProjectCard'
 
 export default function ProjectsClient({ projects }) {
-  const sectionRef = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-          }
-        })
-      },
-      { threshold: 0.05 }
-    )
-
-    const reveals = sectionRef.current?.querySelectorAll('.reveal')
-    reveals?.forEach((el) => observer.observe(el))
-
-    return () => observer.disconnect()
-  }, [projects])
-
   return (
-    <section id="projects" ref={sectionRef} className="py-24">
+    <section id="projects" className="py-24">
       <div className="max-w-6xl mx-auto px-6">
 
         <div className="text-center mb-16 reveal">
@@ -38,8 +18,8 @@ export default function ProjectsClient({ projects }) {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} />
+          {Array.isArray(projects) && projects.map((project, index) => (
+            <ProjectCard key={project._id || project.title} project={project} index={index} />
           ))}
         </div>
 

@@ -1,29 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { FaGlobeAmericas, FaLinkedin, FaGithub, FaInstagram, FaCheckCircle, FaEnvelopeOpen, FaPhoneAlt, FaWhatsapp, FaEnvelope } from 'react-icons/fa'
+import { useState } from 'react'
+import { FaLinkedin, FaPhoneAlt, FaWhatsapp, FaEnvelope, FaCheckCircle } from 'react-icons/fa'
 
 export default function Contact() {
-  const sectionRef = useRef(null)
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [sent, setSent] = useState(false)
-
-  // Reveal animation on scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible')
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    const reveals = sectionRef.current?.querySelectorAll('.reveal')
-    reveals?.forEach((el) => observer.observe(el))
-
-    return () => observer.disconnect()
-  }, [])
 
   // Handle form input changes
   function handleChange(e) {
@@ -35,13 +17,13 @@ export default function Contact() {
     e.preventDefault()
     const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`)
     const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)
-    window.open(`mailto:neyamulislam@email.com?subject=${subject}&body=${body}`)
+    window.open(`mailto:neyamulislam946@gmail.com?subject=${subject}&body=${body}`)
     setSent(true)
     setTimeout(() => setSent(false), 3000)
   }
 
   return (
-    <section id="contact" ref={sectionRef} className="py-24">
+    <section id="contact" className="py-24">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* Section heading */}
@@ -62,12 +44,6 @@ export default function Contact() {
             <h3 className="text-xl font-bold text-white mb-6">Contact Information</h3>
 
             <div className="space-y-4 mb-8">
-              {/* <ContactItem
-                icon={<FaGlobeAmericas />}
-                label="Location"
-                value="Bangladesh"
-              /> */}
-
               <ContactItem
                 icon={<FaLinkedin />}
                 label="LinkedIn"
@@ -79,7 +55,7 @@ export default function Contact() {
                 icon={<FaEnvelope />}
                 label="Email"
                 value="neyamulislam946@gmail.com"
-                href="mailto:your.email@example.com"
+                href="mailto:neyamulislam946@gmail.com"
               />
 
               <ContactItem

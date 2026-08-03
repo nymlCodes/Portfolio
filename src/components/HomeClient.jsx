@@ -1,37 +1,39 @@
 'use client'
-import Navbar from './Navbar'
-import Hero from './Hero'
-import About from './About'
-import Skills from './Skills'
-import Contact from './Contact'
-import Footer from './Footer'
+import RouteSwitch from './layers/RouteSwitch'
 import AnimatedBackground from './AnimatedBackground'
 import CustomCursor from './Cursor'
-import Education from './Education'
 import SplashScreen from './SplashScreen'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function HomeClient({ children }) {
-  const [splashDone, setSplashDone] = useState(false)
+  const [splashDone, setSplashDone] = useState(true)
+
+  useEffect(() => {
+    const hasSeenSplash = sessionStorage.getItem('hasSeenSplash')
+    if (hasSeenSplash) {
+      setSplashDone(true)
+    } else {
+      setSplashDone(false)
+    }
+  }, [])
+
+  const handleSplashFinished = () => {
+    sessionStorage.setItem('hasSeenSplash', 'true')
+    setSplashDone(true)
+  }
 
   return (
     <main>
       {!splashDone && (
-        <SplashScreen onFinished={() => setSplashDone(true)} />
+        <SplashScreen onFinished={handleSplashFinished} />
       )}
 
       <AnimatedBackground />
       <CustomCursor />
-      <Navbar />
 
       <div className="content">
-        <Hero />
-        <About />
-        <Skills />
-        <Education />
         {children}
-        <Contact />
-        <Footer />
+        <RouteSwitch />
       </div>
     </main>
   )

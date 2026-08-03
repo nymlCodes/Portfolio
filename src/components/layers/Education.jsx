@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { GraduationCap, Check, ArrowRight, Circle, Globe, Rocket } from 'lucide-react'
 import { FaUniversity, FaLaptopCode, FaReact, FaJs } from 'react-icons/fa'
 import { LiaUniversitySolid } from 'react-icons/lia'
@@ -20,7 +19,7 @@ const educationData = [
         degree: 'Higher Secondary Certificate (HSC)',
         institution: 'Govt. Haraganga College, Munshiganj',
         year: '2023 - 2025',
-        description: 'Business Studies group. Focused on Accounting, Management, and Finanece.',
+        description: 'Business Studies group. Focused on Accounting, Management, and Finance.',
         grade: 'GPA : 4.42/5.00',
         icon: <GraduationCap size={20} />,
         color: '#7c3aed',
@@ -34,8 +33,8 @@ const educationData = [
         icon: <FaUniversity size={18} />,
         color: '#3b82f6',
     },
-
 ]
+
 const coursesData = [
     { name: 'Complete Web Development', platform: 'Programming Hero', icon: <FaLaptopCode />, year: '2026' },
     { name: 'React JS Masterclass', platform: 'Programming Hero', icon: <FaReact />, year: '2026' },
@@ -44,27 +43,10 @@ const coursesData = [
     { name: 'JavaScript ES6+', platform: 'Programming Hero', icon: <FaJs />, year: '2026' },
     { name: 'Node.js & Express.js', platform: 'Programming Hero', icon: <SiExpress />, year: '2026' },
 ]
+
 export default function Education() {
-    const sectionRef = useRef(null)
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible')
-                })
-            },
-            { threshold: 0.1 }
-        )
-
-        const reveals = sectionRef.current?.querySelectorAll('.reveal')
-        reveals?.forEach((el) => observer.observe(el))
-
-        return () => observer.disconnect()
-    }, [])
-
     return (
-        <section id="education" ref={sectionRef} className="py-24">
+        <section id="education" className="py-24">
             <div className="max-w-6xl mx-auto px-6">
 
                 {/* Section heading */}

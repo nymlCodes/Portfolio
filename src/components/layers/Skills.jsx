@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaBook } from 'react-icons/fa'
 
 // Your skill data - update the levels anytime!
@@ -24,31 +24,15 @@ const tools = [
 ]
 
 export default function Skills() {
-  const sectionRef = useRef(null)
   const [animated, setAnimated] = useState(false)
 
-  // Trigger bar animation when section is visible
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setAnimated(true)
-            entry.target.classList.add('visible')
-          }
-        })
-      },
-      { threshold: 0.2 }
-    )
-
-    const reveals = sectionRef.current?.querySelectorAll('.reveal')
-    reveals?.forEach((el) => observer.observe(el))
-
-    return () => observer.disconnect()
+    const timer = setTimeout(() => setAnimated(true), 300)
+    return () => clearTimeout(timer)
   }, [])
 
   return (
-    <section id="skills" ref={sectionRef} className="py-24">
+    <section id="skills" className="py-24">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* Section heading */}
@@ -94,7 +78,7 @@ export default function Skills() {
               </h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li className="flex items-center gap-2">
-                  <span className="text-purple-400">→</span> Roled Based Access Control (RBAC)
+                  <span className="text-purple-400">→</span> Role Based Access Control (RBAC)
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="text-purple-400">→</span> TypeScript

@@ -1,51 +1,50 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
-// Words that cycle in the typewriter animation
+// Roles cycling in the typewriter animation
 const roles = [
   'MERN Stack Developer',
-  'React Enthusiast',
-  'UI/UX Lover',
-  'Web Designer',
+  'Full Stack Web Developer',
+  'React & Next.js Specialist',
+  'UI/UX & Frontend Lover',
 ]
 
 export default function Hero() {
-  const [currentRole, setCurrentRole] = useState(0)
+  const [roleIndex, setRoleIndex] = useState(0)
   const [displayText, setDisplayText] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
 
-  // Typewriter effect logic
+  // Robust Typewriter effect logic
   useEffect(() => {
-    const fullText = roles[currentRole]
-    let timeout
+    let timer
+    const currentFullText = roles[roleIndex]
 
-    if (!isDeleting) {
-      // Typing forward
-      if (displayText.length < fullText.length) {
-        timeout = setTimeout(() => {
-          setDisplayText(fullText.slice(0, displayText.length + 1))
-        }, 100)
+    if (isDeleting) {
+      if (displayText.length > 0) {
+        timer = setTimeout(() => {
+          setDisplayText(currentFullText.substring(0, displayText.length - 1))
+        }, 40)
       } else {
-        // Wait 2 seconds then start deleting
-        timeout = setTimeout(() => setIsDeleting(true), 2000)
+        setIsDeleting(false)
+        setRoleIndex((prev) => (prev + 1) % roles.length)
       }
     } else {
-      // Deleting
-      if (displayText.length > 0) {
-        timeout = setTimeout(() => {
-          setDisplayText(displayText.slice(0, -1))
-        }, 50)
+      if (displayText.length < currentFullText.length) {
+        timer = setTimeout(() => {
+          setDisplayText(currentFullText.substring(0, displayText.length + 1))
+        }, 80)
       } else {
-        // Move to next role
-        setIsDeleting(false)
-        setCurrentRole((prev) => (prev + 1) % roles.length)
+        timer = setTimeout(() => {
+          setIsDeleting(true)
+        }, 1800)
       }
     }
 
-    return () => clearTimeout(timeout)
-  }, [displayText, isDeleting, currentRole])
+    return () => clearTimeout(timer)
+  }, [displayText, isDeleting, roleIndex])
 
   return (
     <section id="home" className="min-h-screen flex items-center pt-20 mt-20">
@@ -65,9 +64,9 @@ export default function Hero() {
             </h1>
 
             {/* Typewriter role text */}
-            <div className="flex items-center gap-2 mb-6 h-10">
-              <span className="text-gray-400 text-xl whitespace-nowrap">I am a </span>
-              <span className="text-purple-400 text-xl font-semibold typewriter whitespace-nowrap min-w-[280px] inline-block">
+            <div className="flex items-center gap-2 mb-6 h-12">
+              <span className="text-gray-300 text-lg sm:text-xl font-medium whitespace-nowrap">I am a </span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-300 to-pink-400 text-lg sm:text-xl font-bold typewriter whitespace-nowrap min-w-[240px] sm:min-w-[300px] inline-block">
                 {displayText}
               </span>
             </div>
@@ -80,17 +79,17 @@ export default function Hero() {
             {/* CTA buttons */}
             <div className="flex flex-wrap gap-4">
               
-             <a   href="#projects"
+             <Link href="/projects"
                 className="btn-glow bg-purple-700 hover:bg-purple-600 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300"
               >
                 View My Work
-              </a>
+              </Link>
               
-              <a  href="#contact"
+              <Link href="/contact"
                 className="btn-glow border border-purple-700 text-purple-400 hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300"
               >
                 Get In Touch
-              </a>
+              </Link>
               
               <a  href="/resume.pdf"
                 download
@@ -152,12 +151,12 @@ export default function Hero() {
 
         {/* Scroll indicator */}
         <div className="flex justify-center mt-20">
-          <a href="#about" className="flex flex-col items-center text-gray-600 hover:text-purple-400 transition-colors animate-bounce">
-            <span className="text-xs mb-2 tracking-widest">SCROLL</span>
+          <Link href="/about" className="flex flex-col items-center text-gray-600 hover:text-purple-400 transition-colors animate-bounce">
+            <span className="text-xs mb-2 tracking-widest">NEXT</span>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

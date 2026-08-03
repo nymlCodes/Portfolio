@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import {
     FaGithub,
     FaExternalLinkAlt,
@@ -61,7 +61,7 @@ export default function ProjectDetailsClient({ project }) {
             <div className="max-w-3xl mx-auto px-6 py-32 text-center">
                 <h1 className="text-2xl font-bold text-white mb-4">Project not found</h1>
                 <Link
-                    href="/#projects"
+                    href="/projects"
                     className="inline-flex items-center gap-2 text-purple-400 hover:text-white transition-colors"
                 >
                     <FaArrowLeft /> Back to Projects
@@ -94,7 +94,7 @@ export default function ProjectDetailsClient({ project }) {
                 {/* Back link */}
                 <motion.div variants={fadeUp}>
                     <Link
-                        href="/#projects"
+                        href="/projects"
                         className="group inline-flex items-center gap-2 text-gray-400 hover:text-white text-sm mb-8 transition-colors"
                     >
                         <FaArrowLeft className="transition-transform duration-300 group-hover:-translate-x-1.5" />
@@ -195,7 +195,7 @@ export default function ProjectDetailsClient({ project }) {
                             <FaGithub /> Client Code
                         </motion.a>
                     )}
-                    {/* {project.server && (
+                    {project.server && (
                         <motion.a
                             whileHover={{ scale: 1.05, y: -2 }}
                             whileTap={{ scale: 0.96 }}
@@ -206,7 +206,7 @@ export default function ProjectDetailsClient({ project }) {
                         >
                             <FaServer /> Server Code
                         </motion.a>
-                    )} */}
+                    )}
                 </motion.div>
 
                 {/* Technologies */}

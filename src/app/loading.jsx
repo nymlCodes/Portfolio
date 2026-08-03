@@ -6,18 +6,24 @@ export default function Loading() {
 
       {/* Floating dots */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <span
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-purple-500/40 animate-float-dot"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
+        {[...Array(20)].map((_, i) => {
+          const top = (i * 7) % 100
+          const left = (i * 13) % 100
+          const delay = (i * 0.15) % 3
+          const duration = 3 + ((i * 0.25) % 3)
+          return (
+            <span
+              key={i}
+              className="absolute w-1 h-1 rounded-full bg-purple-500/40 animate-float-dot"
+              style={{
+                top: `${top}%`,
+                left: `${left}%`,
+                animationDelay: `${delay}s`,
+                animationDuration: `${duration}s`,
+              }}
+            />
+          )
+        })}
       </div>
 
       {/* Core loader */}
