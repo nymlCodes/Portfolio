@@ -47,7 +47,7 @@ export default function Hero() {
   }, [displayText, isDeleting, roleIndex])
 
   return (
-    <section id="home" className="min-h-screen flex items-center ">
+    <section id="home" className="min-h-screen flex items-center py-20">
       <div className="max-w-6xl mx-auto px-6 w-full">
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
 
@@ -78,20 +78,20 @@ export default function Hero() {
 
             {/* CTA buttons */}
             <div className="flex flex-wrap gap-4">
-              
-             <Link href="/projects"
+
+              <Link href="/projects"
                 className="btn-glow bg-purple-700 hover:bg-purple-600 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300"
               >
                 View My Work
               </Link>
-              
+
               <Link href="/contact"
                 className="btn-glow border border-purple-700 text-purple-400 hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300"
               >
                 Get In Touch
               </Link>
-              
-              <a  href="/resume.pdf"
+
+              <a href="/resume.pdf"
                 download
                 className="btn-glow flex items-center gap-2 border border-purple-700 text-purple-400 hover:text-white  px-8 py-3 rounded-full font-semibold transition-all duration-300"
               >
@@ -102,16 +102,16 @@ export default function Hero() {
 
             {/* Social links */}
             <div className="flex items-center gap-6 mt-10">
-              
-               <a href="https://github.com/neya-mul"
+
+              <a href="https://github.com/neya-mul"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 text-sm"
               >
                 <GithubIcon /> GitHub
               </a>
-              
-             <a   href="https://www.linkedin.com/in/neya-mul/"
+
+              <a href="https://www.linkedin.com/in/neya-mul/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2 text-sm"
@@ -149,7 +149,7 @@ export default function Hero() {
 
         </div>
 
-        
+
       </div>
     </section>
   )
