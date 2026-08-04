@@ -3,12 +3,15 @@ import RouteSwitch from './layers/RouteSwitch'
 import AnimatedBackground from './AnimatedBackground'
 import CustomCursor from './Cursor'
 import SplashScreen from './SplashScreen'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
+
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 export default function HomeClient({ children }) {
-  const [splashDone, setSplashDone] = useState(true)
+  const [splashDone, setSplashDone] = useState(false)
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const hasSeenSplash = sessionStorage.getItem('hasSeenSplash')
     if (hasSeenSplash) {
       setSplashDone(true)

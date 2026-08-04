@@ -4,12 +4,16 @@ export default function SplashScreen({ onFinished }) {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
+    // Disable background scrolling while splash screen is active
+    document.body.style.overflow = "hidden";
+
     // Start fading after 3 seconds
     const fadeTimer = setTimeout(() => setFadeOut(true), 3000);
     // Fully remove after fade completes
     const doneTimer = setTimeout(() => onFinished?.(), 4300);
 
     return () => {
+      document.body.style.overflow = "";
       clearTimeout(fadeTimer);
       clearTimeout(doneTimer);
     };
@@ -28,7 +32,7 @@ export default function SplashScreen({ onFinished }) {
         justifyContent: "center",
         opacity: fadeOut ? 0 : 1,
         transition: "opacity 1.2s ease",
-        pointerEvents: "none",
+        pointerEvents: fadeOut ? "none" : "auto",
       }}
     >
       <p style={{
