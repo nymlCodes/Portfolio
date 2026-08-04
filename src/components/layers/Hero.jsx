@@ -47,7 +47,7 @@ export default function Hero() {
   }, [displayText, isDeleting, roleIndex])
 
   return (
-    <section id="home" className="min-h-screen flex items-center pt-20 mt-20">
+    <section id="home" className="min-h-screen flex items-center ">
       <div className="max-w-6xl mx-auto px-6 w-full">
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
 
@@ -149,15 +149,7 @@ export default function Hero() {
 
         </div>
 
-        {/* Scroll indicator */}
-        <div className="flex justify-center mt-20">
-          <Link href="/about" className="flex flex-col items-center text-gray-600 hover:text-purple-400 transition-colors animate-bounce">
-            <span className="text-xs mb-2 tracking-widest">NEXT</span>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </Link>
-        </div>
+        
       </div>
     </section>
   )
