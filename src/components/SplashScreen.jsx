@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from "react";
 
 export default function SplashScreen({ onFinished }) {
@@ -7,17 +9,17 @@ export default function SplashScreen({ onFinished }) {
     // Disable background scrolling while splash screen is active
     document.body.style.overflow = "hidden";
 
-    // Start fading after 3 seconds
-    const fadeTimer = setTimeout(() => setFadeOut(true), 3000);
+    // Start fading after 2.2 seconds
+    const fadeTimer = setTimeout(() => setFadeOut(true), 2200);
     // Fully remove after fade completes
-    const doneTimer = setTimeout(() => onFinished?.(), 4300);
+    const doneTimer = setTimeout(() => onFinished?.(), 3200);
 
     return () => {
       document.body.style.overflow = "";
       clearTimeout(fadeTimer);
       clearTimeout(doneTimer);
     };
-  }, []);
+  }, [onFinished]);
 
   return (
     <div
@@ -31,7 +33,7 @@ export default function SplashScreen({ onFinished }) {
         alignItems: "center",
         justifyContent: "center",
         opacity: fadeOut ? 0 : 1,
-        transition: "opacity 1.2s ease",
+        transition: "opacity 1s ease",
         pointerEvents: fadeOut ? "none" : "auto",
       }}
     >
