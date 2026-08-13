@@ -305,3 +305,11 @@ html, body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* ===== MOBILE BOTTOM NAV SAFE AREA ===== */
+/* Ensures page content isn't hidden under the fixed bottom nav bar on mobile */
+@media (max-width: 767px) {
+  .content {
+    padding-bottom: 88px;
+  }
+}

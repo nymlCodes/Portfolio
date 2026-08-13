@@ -54,7 +54,7 @@ export default function RouteSwitch({ introStage = 'completed' }) {
     setIsHovered(false)
   }, [pathname])
 
-  // Close menu on outside click or touch
+  // Close desktop menu on outside click or touch
   useEffect(() => {
     function handleClickOutside(event) {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
@@ -95,14 +95,35 @@ export default function RouteSwitch({ introStage = 'completed' }) {
     }),
   }
 
+  // Mobile bottom nav entrance variants
+  const mobileNavVariants = {
+    hidden: { y: 100, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 },
+    },
+  }
+
+  const mobileItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, delay: 0.3 + i * 0.06, ease: [0.22, 1, 0.36, 1] },
+    }),
+  }
+
   return (
     <>
-      {/* Navigation Outer Container fixed on left screen edge */}
+      {/* ─────────────────────────────────────────
+          DESKTOP NAV — left-side drawer (md and up)
+         ───────────────────────────────────────── */}
       <aside
         ref={containerRef}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-50 select-none group"
+        className="hidden md:block fixed left-0 top-1/2 -translate-y-1/2 z-50 select-none group"
         aria-label="Side Navigation"
       >
         {/* Outer Motion Wrapper */}
@@ -155,7 +176,7 @@ export default function RouteSwitch({ introStage = 'completed' }) {
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-purple-500/20 transition-colors sm:hidden"
+                  className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-purple-500/20 transition-colors"
                   aria-label="Close menu"
                 >
                   <X size={14} />
@@ -248,8 +269,8 @@ export default function RouteSwitch({ introStage = 'completed' }) {
               className={`py-6 px-1 bg-card/95 backdrop-blur-xl border border-l-0 border-purple-500/40 rounded-r-xl text-purple-400 shadow-lg cursor-pointer flex flex-col items-center justify-center gap-1.5 transition-all duration-300 hover:bg-purple-950/80 hover:text-white ${
                 isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'
               }`}
-              title="Hover or Tap to open routes menu"
-              aria-label="Open routes menu"
+              title="Hover or click to open navigation"
+              aria-label="Open navigation menu"
             >
               <ChevronRight size={14} className="animate-pulse text-purple-300" />
               <div className="w-1 h-8 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-full" />
@@ -258,10 +279,66 @@ export default function RouteSwitch({ introStage = 'completed' }) {
         </motion.div>
       </aside>
 
+      {/* ─────────────────────────────────────────
+          MOBILE NAV — bottom pill bar (below md)
+         ───────────────────────────────────────── */}
+      <nav
+        className="md:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-50 select-none"
+        aria-label="Mobile Navigation"
+      >
+        <motion.div
+          variants={mobileNavVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex items-center gap-1 px-3 py-2 rounded-2xl bg-card/95 backdrop-blur-2xl border border-purple-500/30 shadow-[0_8px_40px_rgba(124,58,237,0.35)]"
+        >
+          {routes.map((route, i) => {
+            const Icon = route.icon
+            const isActive = i === currentIndex
+
+            return (
+              <motion.div
+                key={route.path}
+                custom={i}
+                variants={mobileItemVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <Link
+                  href={route.path}
+                  className={`relative flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all duration-300 min-w-[48px] ${
+                    isActive
+                      ? 'bg-gradient-to-b from-purple-600 to-indigo-700 text-white shadow-lg shadow-purple-500/40'
+                      : 'text-gray-400 hover:text-purple-300 hover:bg-white/[0.07] active:scale-95'
+                  }`}
+                  aria-label={route.name}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <Icon
+                    size={20}
+                    className={isActive ? 'text-white' : 'text-purple-400'}
+                  />
+                  <span
+                    className={`text-[9px] font-semibold tracking-wide leading-none ${
+                      isActive ? 'text-white/90' : 'text-gray-500'
+                    }`}
+                  >
+                    {route.name}
+                  </span>
+                  {isActive && (
+                    <span className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-3 h-0.5 rounded-full bg-purple-300 shadow-[0_0_6px_rgba(168,85,247,0.9)]" />
+                  )}
+                </Link>
+              </motion.div>
+            )
+          })}
+        </motion.div>
+      </nav>
+
       {/* Footer Branding & Copyright */}
       <footer className="w-full px-4 py-8 mt-16 text-center border-t border-purple-900/10">
         <p className="text-gray-600 text-xs">
-          © {new Date().getFullYear()} Neyamul Islam. Built with Next.js & Tailwind CSS 💜
+          © {new Date().getFullYear()} Neyamul Islam. Built with Next.js &amp; Tailwind CSS 💜
         </p>
       </footer>
     </>
