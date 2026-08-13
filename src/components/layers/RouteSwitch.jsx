@@ -31,7 +31,9 @@ export default function RouteSwitch({ introStage = 'completed' }) {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const [openKey, setOpenKey] = useState(0)
   const containerRef = useRef(null)
+  const prevExpandedRef = useRef(false)
 
   // Find current index
   let currentIndex = routes.findIndex((r) => r.path === pathname)
@@ -72,14 +74,23 @@ export default function RouteSwitch({ introStage = 'completed' }) {
   const isIntroActive = introStage === 'entering' || introStage === 'focus'
   const isExpanded = isIntroActive || isHovered || isOpen
 
-  // Snake Wave Keyframe Variants for sequential entrance from TOP RIGHT
-  const itemVariants = {
+  // Increment openKey each time the panel goes from collapsed → expanded (skip during intro)
+  useEffect(() => {
+    if (isExpanded && !prevExpandedRef.current && !isIntroActive) {
+      setOpenKey((k) => k + 1)
+    }
+    prevExpandedRef.current = isExpanded
+  }, [isExpanded, isIntroActive])
+
+  // ── Unified nav item animation: cascade in from TOP LEFT ──
+  // Used for both page-load intro and every hover/click open
+  const navItemVariants = {
     hidden: {
       opacity: 0,
-      x: '80vw',
-      y: '-60vh',
-      scale: 0.5,
-      rotate: 30,
+      x: -55,
+      y: -45,
+      scale: 0.72,
+      rotate: -10,
     },
     visible: (i) => ({
       opacity: 1,
@@ -88,8 +99,8 @@ export default function RouteSwitch({ introStage = 'completed' }) {
       rotate: 0,
       scale: 1,
       transition: {
-        duration: 1.2,
-        delay: i * 0.12,
+        duration: 0.45,
+        delay: i * 0.055,
         ease: [0.22, 1, 0.36, 1],
       },
     }),
@@ -187,8 +198,9 @@ export default function RouteSwitch({ introStage = 'completed' }) {
               <div className="flex flex-col gap-2 w-full">
                 {/* Previous / Up Button (Index 0) */}
                 <motion.div
+                  key={`prev-${openKey}`}
                   custom={0}
-                  variants={itemVariants}
+                  variants={navItemVariants}
                   initial="hidden"
                   animate="visible"
                 >
@@ -213,9 +225,9 @@ export default function RouteSwitch({ introStage = 'completed' }) {
 
                     return (
                       <motion.div
-                        key={route.path}
+                        key={`${route.path}-${openKey}`}
                         custom={i + 1}
-                        variants={itemVariants}
+                        variants={navItemVariants}
                         initial="hidden"
                         animate="visible"
                       >
@@ -245,8 +257,9 @@ export default function RouteSwitch({ introStage = 'completed' }) {
 
                 {/* Next / Down Button (Index 7) */}
                 <motion.div
+                  key={`next-${openKey}`}
                   custom={7}
-                  variants={itemVariants}
+                  variants={navItemVariants}
                   initial="hidden"
                   animate="visible"
                 >
