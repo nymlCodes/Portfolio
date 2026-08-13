@@ -3,6 +3,8 @@
 import { SiNextdotjs } from 'react-icons/si'
 import { FiPackage } from 'react-icons/fi'
 import { FaDumbbell, FaGlobeAsia, FaMapMarkerAlt } from 'react-icons/fa'
+import Image from 'next/image'
+import neyamul from '../../../public/neyamul.png'
 
 export default function About() {
   return (
@@ -19,23 +21,20 @@ export default function About() {
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
 
+
+
           {/* Left - visual card */}
           <div className="reveal">
-            <div className="card-hover bg-card rounded-3xl p-8">
-              {/* Stats grid */}
-              <div className="grid grid-cols-2 gap-6">
-                <StatCard number="24+" label="Repositories" icon={<FiPackage />} />
-                <StatCard number="100%" label="Dedication" icon={<FaDumbbell />} />
-                <StatCard number="Next JS" label="Main Stack" icon={<SiNextdotjs />} />
-                <StatCard number="BD" label="Bangladesh" icon={<FaGlobeAsia />} />
-              </div>
-
-              {/* Quote */}
-              <div className="mt-8 p-4 border border-purple-700/20 rounded-2xl bg-purple-900/10">
-                <p className="text-gray-400 text-sm italic leading-relaxed">
-                  "Beginner to coding, but passionate about building great things on the web."
-                </p>
-                <p className="text-purple-400 text-sm mt-2 font-semibold">— Neyamul Islam</p>
+            <div className="card-hover bg-card rounded-3xl p-4 md:p-6 max-w-md mx-auto">
+              <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden">
+                <Image
+                  src={neyamul}
+                  alt="Neyamul Islam"
+                  fill
+                  sizes="(max-width: 768px) 90vw, 500px"
+                  className="object-cover object-top hover:scale-105 transition-transform duration-500"
+                  priority
+                />
               </div>
             </div>
           </div>
@@ -57,7 +56,7 @@ export default function About() {
             </p>
             <p className="text-gray-400 leading-relaxed mb-8 flex items-center gap-2">
               When I'm not coding, I'm a big anime fan — you might have noticed my
-              Attack on Titan shirt! 
+              Attack on Titan shirt!
             </p>
 
             {/* Info list */}
@@ -104,3 +103,30 @@ function InfoRow({ label, value, highlight }) {
     </div>
   )
 }
+
+
+
+
+
+
+
+
+
+
+//  <div className="card-hover bg-card rounded-3xl p-8">
+//               {/* Stats grid */}
+//               <div className="grid grid-cols-2 gap-6">
+//                 <StatCard number="24+" label="Repositories" icon={<FiPackage />} />
+//                 <StatCard number="100%" label="Dedication" icon={<FaDumbbell />} />
+//                 <StatCard number="Next JS" label="Main Stack" icon={<SiNextdotjs />} />
+//                 <StatCard number="BD" label="Bangladesh" icon={<FaGlobeAsia />} />
+//               </div>
+
+//               {/* Quote */}
+//               <div className="mt-8 p-4 border border-purple-700/20 rounded-2xl bg-purple-900/10">
+//                 <p className="text-gray-400 text-sm italic leading-relaxed">
+//                   "Beginner to coding, but passionate about building great things on the web."
+//                 </p>
+//                 <p className="text-purple-400 text-sm mt-2 font-semibold">— Neyamul Islam</p>
+//               </div>
+//             </div>
