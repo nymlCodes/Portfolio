@@ -72,34 +72,27 @@ export default function RouteSwitch({ introStage = 'completed' }) {
   const isIntroActive = introStage === 'entering' || introStage === 'focus'
   const isExpanded = isIntroActive || isHovered || isOpen
 
-  // Stagger variants for route buttons dropping from TOP
-  const listVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.1,
-      },
-    },
-  }
-
+  // Snake Wave Keyframe Variants for sequential entrance from TOP RIGHT
   const itemVariants = {
     hidden: {
       opacity: 0,
-      y: -65,
-      scale: 0.8,
+      x: '80vw',
+      y: '-60vh',
+      scale: 0.5,
+      rotate: 30,
     },
-    visible: {
+    visible: (i) => ({
       opacity: 1,
+      x: 0,
       y: 0,
+      rotate: 0,
       scale: 1,
       transition: {
-        type: 'spring',
-        stiffness: 250,
-        damping: 18,
-        mass: 0.75,
+        duration: 1.2,
+        delay: i * 0.12,
+        ease: [0.22, 1, 0.36, 1],
       },
-    },
+    }),
   }
 
   return (
@@ -112,32 +105,28 @@ export default function RouteSwitch({ introStage = 'completed' }) {
         className="fixed left-0 top-1/2 -translate-y-1/2 z-50 select-none group"
         aria-label="Side Navigation"
       >
-        {/* Outer Motion Wrapper: Single static key to prevent re-mount / duplication */}
+        {/* Outer Motion Wrapper */}
         <motion.div
-          key="nav-outer-dock"
-          initial={introStage === 'entering' ? { y: -380, opacity: 0 } : false}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{
-            type: 'spring',
-            stiffness: 190,
-            damping: 20,
-            mass: 0.85,
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="flex items-center"
         >
           {/* Inner Drawer Panel */}
           <div
-            className={`flex items-center transition-all duration-500 ease-out transform ${isExpanded
-              ? 'translate-x-2 sm:translate-x-4 opacity-100'
-              : '-translate-x-[calc(100%-14px)] opacity-95'
-              }`}
+            className={`flex items-center transition-all duration-500 ease-out transform ${
+              isExpanded
+                ? 'translate-x-2 sm:translate-x-4 opacity-100'
+                : '-translate-x-[calc(100%-14px)] opacity-95'
+            }`}
           >
             {/* Main Glass Dock */}
             <div
-              className={`relative bg-card/95 backdrop-blur-2xl border rounded-r-2xl p-3 flex flex-col items-center gap-2 max-h-[85vh] overflow-y-auto scrollbar-hide min-w-[165px] transition-all duration-500 ${introStage === 'focus'
-                ? 'border-purple-400/90 shadow-[0_0_65px_rgba(168,85,247,0.75)] scale-[1.03]'
-                : 'border-purple-500/30 shadow-[0_0_40px_rgba(124,58,237,0.3)]'
-                }`}
+              className={`relative bg-card/95 backdrop-blur-2xl border rounded-r-2xl p-3 flex flex-col items-center gap-2 max-h-[85vh] overflow-y-auto scrollbar-hide min-w-[165px] transition-all duration-500 ${
+                introStage === 'focus'
+                  ? 'border-purple-400/90 shadow-[0_0_65px_rgba(168,85,247,0.75)] scale-[1.03]'
+                  : 'border-purple-500/30 shadow-[0_0_40px_rgba(124,58,237,0.3)]'
+              }`}
             >
               {/* Minimal Discovery Hint Tooltip (shown during Focus stage) */}
               <AnimatePresence>
@@ -173,15 +162,15 @@ export default function RouteSwitch({ introStage = 'completed' }) {
                 </button>
               </div>
 
-              {/* Route Buttons List dropping down from TOP */}
-              <motion.div
-                variants={listVariants}
-                initial="hidden"
-                animate="visible"
-                className="flex flex-col gap-2 w-full"
-              >
-                {/* Previous / Up Button */}
-                <motion.div variants={itemVariants}>
+              {/* Route Buttons List with Snake Entrance */}
+              <div className="flex flex-col gap-2 w-full">
+                {/* Previous / Up Button (Index 0) */}
+                <motion.div
+                  custom={0}
+                  variants={itemVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
                   <Link
                     href={prevRoute.path}
                     onClick={() => setIsOpen(false)}
@@ -195,7 +184,7 @@ export default function RouteSwitch({ introStage = 'completed' }) {
 
                 <div className="w-full h-px bg-white/10 my-0.5" />
 
-                {/* ALL 6 Route Buttons */}
+                {/* ALL 6 Route Buttons (Indices 1 to 6) */}
                 <div className="flex flex-col gap-1.5 w-full">
                   {routes.map((route, i) => {
                     const Icon = route.icon
@@ -204,15 +193,19 @@ export default function RouteSwitch({ introStage = 'completed' }) {
                     return (
                       <motion.div
                         key={route.path}
+                        custom={i + 1}
                         variants={itemVariants}
+                        initial="hidden"
+                        animate="visible"
                       >
                         <Link
                           href={route.path}
                           onClick={() => setIsOpen(false)}
-                          className={`group/item flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 ${isActive
-                            ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-500/30 font-semibold scale-[1.02]'
-                            : 'text-gray-300 hover:text-white hover:bg-white/[0.08]'
-                            }`}
+                          className={`group/item flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 ${
+                            isActive
+                              ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-500/30 font-semibold scale-[1.02]'
+                              : 'text-gray-300 hover:text-white hover:bg-white/[0.08]'
+                          }`}
                         >
                           <Icon size={18} className={isActive ? 'text-white' : 'text-purple-400 group-hover/item:text-purple-300'} />
                           <span className="text-xs font-medium tracking-wide">
@@ -229,8 +222,13 @@ export default function RouteSwitch({ introStage = 'completed' }) {
 
                 <div className="w-full h-px bg-white/10 my-0.5" />
 
-                {/* Next / Down Button */}
-                <motion.div variants={itemVariants}>
+                {/* Next / Down Button (Index 7) */}
+                <motion.div
+                  custom={7}
+                  variants={itemVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
                   <Link
                     href={nextRoute.path}
                     onClick={() => setIsOpen(false)}
@@ -241,14 +239,15 @@ export default function RouteSwitch({ introStage = 'completed' }) {
                     <span className="text-xs text-purple-300/80 ml-1.5 font-medium">Next ({nextRoute.name})</span>
                   </Link>
                 </motion.div>
-              </motion.div>
+              </div>
             </div>
 
             {/* Edge Handle / Tab */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`py-6 px-1 bg-card/95 backdrop-blur-xl border border-l-0 border-purple-500/40 rounded-r-xl text-purple-400 shadow-lg cursor-pointer flex flex-col items-center justify-center gap-1.5 transition-all duration-300 hover:bg-purple-950/80 hover:text-white ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'
-                }`}
+              className={`py-6 px-1 bg-card/95 backdrop-blur-xl border border-l-0 border-purple-500/40 rounded-r-xl text-purple-400 shadow-lg cursor-pointer flex flex-col items-center justify-center gap-1.5 transition-all duration-300 hover:bg-purple-950/80 hover:text-white ${
+                isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              }`}
               title="Hover or Tap to open routes menu"
               aria-label="Open routes menu"
             >

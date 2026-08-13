@@ -31,7 +31,7 @@ export default function HomeClient({ children }) {
 
       <div className="content">
         {children}
-        <RouteSwitch introStage={introStage} />
+        {splashDone && <RouteSwitch introStage={introStage} />}
       </div>
     </main>
   )

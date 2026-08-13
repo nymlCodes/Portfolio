@@ -6,26 +6,26 @@ export default function PortfolioIntro({ onIntroStageChange }) {
   const [stage, setStage] = useState('entering')
 
   useEffect(() => {
-    // Stage 1: 'entering' (0ms) -> Navigation buttons drop from TOP into position
+    // Stage 1: 'entering' (0ms) -> Navigation buttons slither from TOP RIGHT like a snake one by one
     onIntroStageChange?.('entering')
 
-    // Stage 2: 'focus' (850ms) -> Buttons landed, glowing purple aura & discovery hint active
+    // Stage 2: 'focus' (1650ms) -> All buttons landed, glowing purple aura & discovery hint badge active
     const focusTimer = setTimeout(() => {
       setStage('focus')
       onIntroStageChange?.('focus')
-    }, 850)
+    }, 1650)
 
-    // Stage 3: 'collapsing' (2200ms) -> Discovery hint fades out, drawer slides into collapsed tab state
+    // Stage 3: 'collapsing' (3250ms) -> Discovery hint fades out, drawer slides into collapsed tab state
     const collapseTimer = setTimeout(() => {
       setStage('collapsing')
       onIntroStageChange?.('collapsing')
-    }, 2200)
+    }, 3250)
 
-    // Stage 4: 'completed' (2700ms) -> Clean up intro, yield control to normal navigation
+    // Stage 4: 'completed' (3750ms) -> Clean up intro, yield control to normal navigation
     const completeTimer = setTimeout(() => {
       setStage('completed')
       onIntroStageChange?.('completed')
-    }, 2700)
+    }, 3750)
 
     return () => {
       clearTimeout(focusTimer)
