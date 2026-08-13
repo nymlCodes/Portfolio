@@ -103,7 +103,7 @@ export default function Hero() {
             {/* Social links */}
             <div className="flex items-center gap-6 mt-10">
 
-              <a href="https://github.com/neya-mul"
+              <a href="https://github.com/nymlCodes"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 text-sm"
