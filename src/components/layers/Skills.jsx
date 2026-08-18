@@ -189,8 +189,19 @@ export default function Skills() {
           </h2>
         </div>
 
+        {/* Terminal hero — sits between the heading and the skill bars */}
+        <TiltCard animated={animated}>
+          <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-purple-700/20">
+            <span className="w-3 h-3 rounded-full bg-red-500/70" />
+            <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
+            <span className="w-3 h-3 rounded-full bg-green-500/70" />
+            <span className="ml-3 text-xs text-gray-500 font-mono">skills.config.js</span>
+          </div>
+          <TerminalBody start={animated} />
+        </TiltCard>
+
         {/* Skill bars, grouped by category */}
-        <div className="mb-24 space-y-12">
+        <div className="mt-16 mb-24 space-y-12">
           {skillGroups.map((group, gi) => (
             <div key={group.category} className="reveal">
               <div className="flex items-center gap-3 mb-6">
@@ -216,7 +227,7 @@ export default function Skills() {
         </div>
 
         {/* Tools orbit + Currently Learning */}
-        <div className="grid md:grid-cols-2 gap-12 items-center reveal mb-24">
+        <div className="grid md:grid-cols-2 gap-12 items-center reveal">
 
           {/* Orbiting tools with comet trail (desktop) */}
           <div className="hidden md:flex justify-center">
@@ -301,17 +312,6 @@ export default function Skills() {
           </div>
         </div>
 
-        {/* Terminal hero — closes out the section */}
-        <TiltCard animated={animated}>
-          <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-purple-700/20">
-            <span className="w-3 h-3 rounded-full bg-red-500/70" />
-            <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
-            <span className="w-3 h-3 rounded-full bg-green-500/70" />
-            <span className="ml-3 text-xs text-gray-500 font-mono">skills.config.js</span>
-          </div>
-          <TerminalBody start={animated} />
-        </TiltCard>
-
       </div>
     </section>
   )
@@ -338,7 +338,7 @@ function TiltCard({ animated, children }) {
       className={`reveal max-w-2xl mx-auto relative rounded-xl spin-border transition-opacity duration-700 ${
         animated ? 'opacity-100' : 'opacity-0'
       }`}
-      style={{ transitionDelay: animated ? '2200ms' : '0ms' }}
+      style={{ transitionDelay: animated ? '200ms' : '0ms' }}
     >
       <div
         ref={cardRef}
@@ -369,7 +369,7 @@ function TerminalBody({ start }) {
 
   useEffect(() => {
     if (!start) return
-    const t = setTimeout(() => setStarted(true), 2200)
+    const t = setTimeout(() => setStarted(true), 200)
     return () => clearTimeout(t)
   }, [start])
 
