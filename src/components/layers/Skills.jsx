@@ -166,17 +166,25 @@ export default function Skills() {
       <div ref={spotlightRef} className="pointer-events-none absolute inset-0 transition-[background] duration-150" />
 
       {/* Ambient background */}
-      <div className="pointer-events-none absolute -top-10 left-1/4 w-80 h-80 bg-purple-600/15 rounded-full blur-[110px] float-blob-a" />
-      <div className="pointer-events-none absolute bottom-0 right-1/5 w-80 h-80 bg-fuchsia-500/15 rounded-full blur-[110px] float-blob-b" />
+      {/* Ambient background — masked so blobs/dots fade out before the section edge, no hard clip line */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.15]"
+        className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: 'radial-gradient(rgba(168,85,247,0.5) 1px, transparent 1px)',
-          backgroundSize: '26px 26px',
-          maskImage: 'radial-gradient(ellipse 60% 50% at 50% 40%, black, transparent)',
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
         }}
-      />
-
+      >
+        <div className="absolute -top-10 left-1/4 w-80 h-80 bg-purple-600/15 rounded-full blur-[110px] float-blob-a" />
+        <div className="absolute bottom-0 right-1/5 w-80 h-80 bg-fuchsia-500/15 rounded-full blur-[110px] float-blob-b" />
+        <div
+          className="absolute inset-0 opacity-[0.15]"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(168,85,247,0.5) 1px, transparent 1px)',
+            backgroundSize: '26px 26px',
+            maskImage: 'radial-gradient(ellipse 60% 50% at 50% 40%, black, transparent)',
+          }}
+        />
+      </div>
       <div className="max-w-6xl mx-auto px-6 relative">
 
         {/* Heading */}
@@ -291,9 +299,8 @@ export default function Skills() {
 
           {/* Currently Learning terminal */}
           <div
-            className={`relative rounded-xl transition-all duration-700 ${
-              animated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`relative rounded-xl transition-all duration-700 ${animated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
             style={{ transitionDelay: animated ? '900ms' : '0ms' }}
           >
             <div className="relative rounded-xl overflow-hidden border border-purple-700/30 bg-[#0d0a17]/80 backdrop-blur-sm">
@@ -335,9 +342,8 @@ function TiltCard({ animated, children }) {
 
   return (
     <div
-      className={`reveal max-w-2xl mx-auto relative rounded-xl spin-border transition-opacity duration-700 ${
-        animated ? 'opacity-100' : 'opacity-0'
-      }`}
+      className={`reveal max-w-2xl mx-auto relative rounded-xl spin-border transition-opacity duration-700 ${animated ? 'opacity-100' : 'opacity-0'
+        }`}
       style={{ transitionDelay: animated ? '200ms' : '0ms' }}
     >
       <div
