@@ -165,7 +165,6 @@ export default function Skills() {
       {/* Cursor-reactive spotlight */}
       <div ref={spotlightRef} className="pointer-events-none absolute inset-0 transition-[background] duration-150" />
 
-      {/* Ambient background */}
       {/* Ambient background — masked so blobs/dots fade out before the section edge, no hard clip line */}
       <div
         className="pointer-events-none absolute inset-0"
