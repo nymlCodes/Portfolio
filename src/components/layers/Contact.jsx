@@ -13,13 +13,40 @@ export default function Contact() {
   }
 
   // Handle form submit - opens email client with pre-filled data
-  function handleSubmit(e) {
-    e.preventDefault()
-    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`)
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)
-    window.open(`mailto:neyamulislam946@gmail.com?subject=${subject}&body=${body}`)
-    setSent(true)
-    setTimeout(() => setSent(false), 3000)
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setSent(true);
+
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+
+      setTimeout(() => {
+        setSent(false);
+      }, 3000);
+
+    } catch (error) {
+      console.error(error);
+      alert("Failed to send message. Please try again.");
+    }
   }
 
   return (
