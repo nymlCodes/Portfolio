@@ -13,7 +13,7 @@ export default function Contact() {
   }
 
   // Handle form submit - opens email client with pre-filled data
-  async function handleSubmit(e) {
+  async function handeSubmit(e) {
     e.preventDefault();
 
     try {
