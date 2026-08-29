@@ -25,7 +25,7 @@ export default function ProjectsClient({ projects }) {
 
         <div className="text-center mt-12 reveal">
           <a
-            href="https://github.com/neya-mul"
+            href="https://github.com/nymlCodes"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-glow inline-flex items-center gap-2 border border-purple-700 text-purple-400 hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300"
