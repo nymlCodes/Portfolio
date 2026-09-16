@@ -47,8 +47,8 @@ const tools = [
 const learning = [
   // 'Role Based Access Control (RBAC)',
   'TypeScript',
-  'Payment Integration',
-  'Backend with Express.js',
+  'PostgreeSQL',
+  'Prisma',
 ]
 
 export default function Skills() {
@@ -362,8 +362,8 @@ function TerminalBody({ start }) {
   const lines = [
     { text: 'const developer = {', indent: 0 },
     { text: "role: 'MERN Stack Developer',", indent: 1 },
-    { text: "strongest: ['HTML5', 'CSS3', 'Next.js'],", indent: 1 },
-    { text: "learning: ['TypeScript', 'RBAC'],", indent: 1 },
+    { text: "strongest: ['JavaScript', 'React.js', 'Next.js'],", indent: 1 },
+    { text: "learning: ['TypeScript', 'PostgreeSQL'],", indent: 1 },
     { text: 'shipping: true,', indent: 1 },
     { text: '};', indent: 0 },
   ]
