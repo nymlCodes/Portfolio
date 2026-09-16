@@ -76,14 +76,12 @@ const certificatesData = [
 ]
 
 const goals = [
-    { label: 'HTML & CSS Fundamentals', done: true },
-    { label: 'JavaScript Basics', done: true },
-    { label: 'React JS', done: true },
-    { label: 'Tailwind CSS', done: true },
-    { label: 'Next.js', done: true },
-    { label: 'TypeScript', active: true },
-    { label: 'Node.js & Express', active: true },
-    { label: 'MongoDB', active: true },
+
+    { label: 'TypeScript', done: true },
+    { label: 'PostgreeSQL', active: true },
+    { label: 'Prisma', active: true }
+
+
 ]
 
 export default function Education() {
@@ -487,7 +485,7 @@ function CourseCard({ course }) {
 
                 {/* it is the online course card part */}
 
-                
+
                 {/* Course Header */}
                 <div className="flex items-start justify-between gap-3 mb-5 relative">
                     <div className="flex items-center gap-3">
