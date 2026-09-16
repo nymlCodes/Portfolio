@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { GraduationCap, Check, ArrowRight, Circle, Globe, Rocket, BookOpen, Layers } from 'lucide-react'
-import { FaUniversity, FaLaptopCode, FaReact, FaJs } from 'react-icons/fa'
+import { GraduationCap, Check, ArrowRight, Circle, Globe, Rocket, BookOpen, Layers, ExternalLink, Award, ShieldCheck } from 'lucide-react'
+import { FaUniversity, FaLaptopCode, FaReact, FaJs, FaNodeJs } from 'react-icons/fa'
 import { LiaUniversitySolid } from 'react-icons/lia'
 import { SiExpress, SiNextdotjs, SiTailwindcss } from 'react-icons/si'
 
@@ -37,13 +37,42 @@ const educationData = [
     },
 ]
 
-const coursesData = [
-    { name: 'Complete Web Development', platform: 'Programming Hero', icon: <FaLaptopCode />, year: '2026', color: '#a78bfa' },
-    { name: 'React JS Masterclass', platform: 'Programming Hero', icon: <FaReact />, year: '2026', color: '#61dafb' },
-    { name: 'Next.js Complete Course', platform: 'Programming Hero', icon: <SiNextdotjs />, year: '2026', color: '#e5e5e5' },
-    { name: 'Tailwind CSS Full Course', platform: 'Programming Hero', icon: <SiTailwindcss />, year: '2026', color: '#38bdf8' },
-    { name: 'JavaScript ES6+', platform: 'Programming Hero', icon: <FaJs />, year: '2026', color: '#facc15' },
-    { name: 'Node.js & Express.js', platform: 'Programming Hero', icon: <SiExpress />, year: '2026', color: '#68a063' },
+const coursesData = {
+    name: 'Complete Web Development',
+    platform: 'Programming Hero',
+    batch: 'Batch-13',
+    year: '2026',
+    icon: <FaLaptopCode size={20} />,
+    color: '#a78bfa',
+    skills: [
+        { name: 'JavaScript ES6+', icon: <FaJs />, color: '#facc15' },
+        { name: 'React.js', icon: <FaReact />, color: '#61dafb' },
+        { name: 'Next.js', icon: <SiNextdotjs />, color: '#e5e5e5' },
+        { name: 'Tailwind CSS', icon: <SiTailwindcss />, color: '#38bdf8' },
+        { name: 'Node.js', icon: <FaNodeJs />, color: '#68a063' },
+        { name: 'Express.js', icon: <SiExpress />, color: '#68a063' },
+    ],
+}
+
+const certificatesData = [
+    {
+        title: 'Complete Web Development Certificate',
+        issuer: 'Programming Hero',
+        type: 'Main Certificate',
+        link: 'https://drive.google.com/file/d/1YEQQXqg_0QGOXrJtrJ53nZ2seQHY3838/view?usp=drive_link',
+        description: 'Successfully completed the Programming Hero Web Development course, gaining hands-on experience in modern web development with HTML, CSS, JavaScript, React, Node.js, Express.js, MongoDB, and related technologies.',
+        icon: <Award size={16} className="text-purple-400" />,
+        badgeColor: '#a78bfa',
+    },
+    {
+        title: 'Programming Hero Black Belt',
+        issuer: 'Programming Hero',
+        type: 'Special Recognition',
+        link: 'https://drive.google.com/file/d/14qtUbABw949PCnx8ghlpSpue9grgMZtL/view?usp=drive_link',
+        description: 'A recognition awarded for successfully completing the Programming Hero Web Development journey with strong performance, consistency, and dedication across assignments, projects, and assessments.',
+        icon: <ShieldCheck size={16} className="text-amber-400" />,
+        badgeColor: '#f59e0b',
+    },
 ]
 
 const goals = [
@@ -157,6 +186,19 @@ export default function Education() {
                     mask-composite: exclude;
                     opacity: 0.8;
                 }
+                .course-border { animation: spin-border 4.5s linear infinite; }
+                .course-border::before {
+                    content: '';
+                    position: absolute;
+                    inset: -1.5px;
+                    border-radius: inherit;
+                    padding: 1.5px;
+                    background: conic-gradient(from var(--angle), #a78bfa, #c084fc, #38bdf8, #a78bfa);
+                    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+                    -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+                    opacity: 0.7;
+                }
                 .spot-card { position: relative; }
                 .spot-card::before {
                     content: '';
@@ -170,24 +212,13 @@ export default function Education() {
                 }
                 .spot-card:hover::before { opacity: 1; }
                 .bar-shimmer { animation: bar-shimmer 2s ease-in-out infinite; }
-                .tilt-card {
-                    transition: transform 0.15s ease-out;
-                    transform-style: preserve-3d;
-                }
-                .shine-sweep {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: -60%;
-                    width: 40%;
-                    height: 100%;
-                    background: linear-gradient(115deg, transparent, rgba(255,255,255,0.12), transparent);
-                    transform: skewX(-20deg);
-                    transition: left 0.6s ease;
-                    pointer-events: none;
-                }
-                .tilt-card:hover .shine-sweep { left: 130%; }
                 .pop-check { animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+                .skill-chip {
+                    transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+                }
+                .skill-chip:hover {
+                    transform: translateY(-2px);
+                }
             `}</style>
 
             {/* Cursor-reactive spotlight */}
@@ -221,10 +252,10 @@ export default function Education() {
                     />
                     <StatRing
                         icon={<BookOpen size={16} />}
-                        label="Courses done"
-                        value={coursesData.length}
-                        max={coursesData.length}
-                        display={String(coursesData.length)}
+                        label="Skills covered"
+                        value={coursesData.skills.length}
+                        max={coursesData.skills.length}
+                        display={String(coursesData.skills.length)}
                         color="#38bdf8"
                         animated={animated}
                         delay={150}
@@ -266,16 +297,12 @@ export default function Education() {
                         </div>
                     </div>
 
-                    {/* Right - Online Courses */}
+                    {/* Right - Online Course */}
                     <div className="reveal">
-                        <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                            <Globe size={20} className="text-purple-400" /> Online Courses
+                        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-2">
+                            <Globe size={20} className="text-purple-400" /> Online Course
                         </h3>
-                        <div className="space-y-3">
-                            {coursesData.map((course, i) => (
-                                <CourseCard key={i} course={course} delay={i * 80} />
-                            ))}
-                        </div>
+                        <CourseCard course={coursesData} />
                     </div>
 
                 </div>
@@ -447,45 +474,116 @@ function TimelineCardBody({ edu }) {
     )
 }
 
-// Online course row card — tilts toward the cursor and catches a light sweep on hover
-function CourseCard({ course, delay }) {
-    const cardRef = useRef(null)
-
-    const handleMove = (e) => {
-        const el = cardRef.current
-        if (!el) return
-        const rect = el.getBoundingClientRect()
-        const px = (e.clientX - rect.left) / rect.width - 0.5
-        const py = (e.clientY - rect.top) / rect.height - 0.5
-        el.style.transform = `perspective(600px) rotateY(${px * 4}deg) rotateX(${-py * 4}deg) translateX(4px)`
-    }
-    const handleLeave = () => {
-        if (cardRef.current) cardRef.current.style.transform = 'perspective(600px) rotateY(0) rotateX(0) translateX(0)'
-    }
+function CourseCard({ course }) {
+    const { ref, handleMove } = useSpotlight()
 
     return (
-        <div
-            ref={cardRef}
-            onMouseMove={handleMove}
-            onMouseLeave={handleLeave}
-            className="tilt-card card-hover bg-card rounded-xl px-4 py-3 flex items-center justify-between relative overflow-hidden"
-            style={{ borderLeft: `2px solid ${course.color}`, transitionDelay: `${delay}ms` }}
-        >
-            {/* <span className="shine-sweep" /> */}
-            <div className="flex items-center  gap-3 relative">
-                <span
-                    className="text-xl flex items-center justify-center w-9 h-9 rounded-lg flex-shrink-0"
-                    style={{ backgroundColor: `${course.color}18`, color: course.color }}
-                >
-                    {course.icon}
-                </span>
-                <div>
-                    <p className="text-white text-sm font-medium">{course.name}</p>
-                    <p className="text-gray-600 text-xs">{course.platform}</p>
+        <div className="relative rounded-2xl course-border">
+            <div
+                ref={ref}
+                onMouseMove={handleMove}
+                className="spot-card card-hover bg-card rounded-2xl p-6 relative overflow-hidden"
+            >
+
+                {/* it is the online course card part */}
+
+                
+                {/* Course Header */}
+                <div className="flex items-start justify-between gap-3 mb-5 relative">
+                    <div className="flex items-center gap-3">
+                        <span
+                            className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                            style={{ backgroundColor: `${course.color}20`, color: course.color }}
+                        >
+                            {course.icon}
+                        </span>
+                        <div>
+                            <h4 className="text-white font-bold text-sm leading-snug">{course.name}</h4>
+                            <p className="text-purple-400 text-xs font-semibold mt-0.5">
+                                {course.platform} · {course.batch}
+                            </p>
+                        </div>
+                    </div>
+                    <span
+                        className="text-xs px-2 py-1 rounded-full whitespace-nowrap font-medium flex-shrink-0 animate-pulse"
+                        style={{ backgroundColor: `${course.color}20`, color: course.color }}
+                    >
+                        {course.year}
+                    </span>
+                </div>
+
+                {/* Skills Covered */}
+                <p className="text-gray-400 text-xs font-medium mb-2.5 relative">What it covers</p>
+                <div className="flex flex-wrap gap-2 relative mb-6">
+                    {course.skills.map((skill) => (
+                        <SkillChip key={skill.name} skill={skill} />
+                    ))}
+                </div>
+
+                {/* Certificates Section */}
+                <div className="relative pt-5 border-t border-purple-700/20">
+                    <p className="text-gray-300 text-xs font-semibold mb-3 flex items-center gap-1.5">
+                        <Award size={15} className="text-purple-400" /> Certificates & Recognition
+                    </p>
+                    <div className="space-y-3">
+                        {certificatesData.map((cert, idx) => (
+                            <CertificateLink key={idx} cert={cert} />
+                        ))}
+                    </div>
                 </div>
             </div>
-            <span className="text-gray-700 text-xs relative">{course.year}</span>
         </div>
+    )
+}
+
+function CertificateLink({ cert }) {
+    return (
+        <a
+            href={cert.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/cert block p-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-purple-500/30 transition-all duration-200"
+        >
+            <div className="flex items-center justify-between gap-2 mb-1">
+                <div className="flex items-center gap-2 min-w-0">
+                    <span className="flex-shrink-0">{cert.icon}</span>
+                    <h5 className="text-xs font-semibold text-white truncate group-hover/cert:text-purple-300 transition-colors">
+                        {cert.title}
+                    </h5>
+                </div>
+                <div className="flex items-center gap-1 flex-shrink-0">
+                    <span
+                        className="text-[10px] px-2 py-0.5 rounded-full font-medium"
+                        style={{ backgroundColor: `${cert.badgeColor}20`, color: cert.badgeColor }}
+                    >
+                        {cert.type}
+                    </span>
+                    <ExternalLink
+                        size={13}
+                        className="text-gray-500 group-hover/cert:text-purple-400 group-hover/cert:translate-x-0.5 group-hover/cert:-translate-y-0.5 transition-all ml-1"
+                    />
+                </div>
+            </div>
+            <p className="text-[11px] text-gray-400 leading-relaxed line-clamp-2 pl-6">
+                {cert.description}
+            </p>
+        </a>
+    )
+}
+
+function SkillChip({ skill }) {
+    return (
+        <span
+            className="skill-chip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border"
+            style={{
+                backgroundColor: `${skill.color}14`,
+                borderColor: `${skill.color}40`,
+                color: skill.color,
+            }}
+        >
+            <span className="text-sm flex items-center">{skill.icon}</span>
+            {skill.name}
+        </span>
     )
 }
 
