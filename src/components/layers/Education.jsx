@@ -76,12 +76,9 @@ const certificatesData = [
 ]
 
 const goals = [
-
-    { label: 'TypeScript', done: true },
+    { label: 'TypeScript', active: true },
     { label: 'PostgreeSQL', active: true },
-    { label: 'Prisma', active: true }
-
-
+    { label: 'Prisma', active: true },
 ]
 
 export default function Education() {
@@ -117,7 +114,7 @@ export default function Education() {
     return (
         <section
             id="education"
-            className="relative py-24 overflow-hidden"
+            className="relative py-16 sm:py-20 lg:py-24 overflow-hidden"
             ref={sectionRef}
             onMouseMove={handleMouseMove}
         >
@@ -217,65 +214,74 @@ export default function Education() {
                 .skill-chip:hover {
                     transform: translateY(-2px);
                 }
+                @media (max-width: 380px) {
+                    .stat-ring-wrap { transform: scale(0.85); }
+                }
             `}</style>
 
             {/* Cursor-reactive spotlight */}
             <div ref={spotlightRef} className="pointer-events-none absolute inset-0 transition-[background] duration-150" />
 
             {/* Ambient background */}
-            <div className="pointer-events-none absolute -top-10 right-1/4 w-80 h-80 bg-green-600/10 rounded-full blur-[110px] float-blob-a" />
-            <div className="pointer-events-none absolute bottom-10 left-1/5 w-80 h-80 bg-purple-600/10 rounded-full blur-[110px] float-blob-b" />
+            <div className="pointer-events-none absolute -top-10 right-1/4 w-56 h-56 sm:w-80 sm:h-80 bg-green-600/10 rounded-full blur-[90px] sm:blur-[110px] float-blob-a" />
+            <div className="pointer-events-none absolute bottom-10 left-1/5 w-56 h-56 sm:w-80 sm:h-80 bg-purple-600/10 rounded-full blur-[90px] sm:blur-[110px] float-blob-b" />
 
-            <div className="max-w-6xl mx-auto px-6 relative">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
 
                 {/* Section heading */}
-                <div className="text-center mb-10 reveal">
-                    <p className="text-purple-400 text-sm tracking-widest uppercase mb-3">My Journey</p>
-                    <h2 className="text-4xl md:text-5xl font-black text-white">
+                <div className="text-center mb-8 sm:mb-10 reveal">
+                    <p className="text-purple-400 text-xs sm:text-sm tracking-widest uppercase mb-3">My Journey</p>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                         Education <span className="shimmer-heading">& Learning</span>
                     </h2>
                 </div>
 
                 {/* Stat rings */}
-                <div className="flex justify-center gap-10 md:gap-16 mb-20 reveal flex-wrap">
-                    <StatRing
-                        icon={<GraduationCap size={16} />}
-                        label="Milestones"
-                        value={educationData.length}
-                        max={educationData.length}
-                        display={String(educationData.length)}
-                        color="#7c3aed"
-                        animated={animated}
-                        delay={0}
-                    />
-                    <StatRing
-                        icon={<BookOpen size={16} />}
-                        label="Skills covered"
-                        value={coursesData.skills.length}
-                        max={coursesData.skills.length}
-                        display={String(coursesData.skills.length)}
-                        color="#38bdf8"
-                        animated={animated}
-                        delay={150}
-                    />
-                    <StatRing
-                        icon={<Layers size={16} />}
-                        label="Core stack"
-                        value={progressPct}
-                        max={100}
-                        display={`${progressPct}%`}
-                        color="#4ade80"
-                        animated={animated}
-                        delay={300}
-                    />
+                <div className="flex justify-center gap-6 sm:gap-10 md:gap-16 mb-12 sm:mb-16 md:mb-20 reveal flex-wrap">
+                    <div className="stat-ring-wrap">
+                        <StatRing
+                            icon={<GraduationCap size={16} />}
+                            label="Milestones"
+                            value={educationData.length}
+                            max={educationData.length}
+                            display={String(educationData.length)}
+                            color="#7c3aed"
+                            animated={animated}
+                            delay={0}
+                        />
+                    </div>
+                    <div className="stat-ring-wrap">
+                        <StatRing
+                            icon={<BookOpen size={16} />}
+                            label="Skills covered"
+                            value={coursesData.skills.length}
+                            max={coursesData.skills.length}
+                            display={String(coursesData.skills.length)}
+                            color="#38bdf8"
+                            animated={animated}
+                            delay={150}
+                        />
+                    </div>
+                    <div className="stat-ring-wrap">
+                        <StatRing
+                            icon={<Layers size={16} />}
+                            label="Core stack"
+                            value={progressPct}
+                            max={100}
+                            display={`${progressPct}%`}
+                            color="#4ade80"
+                            animated={animated}
+                            delay={300}
+                        />
+                    </div>
                 </div>
 
-                {/* TOP ROW - Education + Online Courses side by side */}
-                <div className="grid md:grid-cols-2 gap-12 mb-12 items-start">
+                {/* TOP ROW - Education + Online Courses side by side on desktop, stacked on mobile */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 mb-10 md:mb-12 items-start">
 
                     {/* Left - Academic timeline */}
                     <div className="reveal">
-                        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-2">
+                        <h3 className="text-lg sm:text-xl font-bold text-white mb-6 sm:mb-8 flex items-center gap-2">
                             <LiaUniversitySolid />
                             Academic Background
                         </h3>
@@ -287,7 +293,7 @@ export default function Education() {
                                     style={{ boxShadow: '0 0 10px 3px rgba(196,132,252,0.8)' }}
                                 />
                             </div>
-                            <div className="space-y-8">
+                            <div className="space-y-6 sm:space-y-8">
                                 {educationData.map((edu, index) => (
                                     <TimelineItem key={index} edu={edu} />
                                 ))}
@@ -297,7 +303,7 @@ export default function Education() {
 
                     {/* Right - Online Course */}
                     <div className="reveal">
-                        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-2">
+                        <h3 className="text-lg sm:text-xl font-bold text-white mb-6 sm:mb-8 flex items-center gap-2">
                             <Globe size={20} className="text-purple-400" /> Online Course
                         </h3>
                         <CourseCard course={coursesData} />
@@ -305,17 +311,17 @@ export default function Education() {
 
                 </div>
 
-                {/* BOTTOM ROW - Self Learning Goals centered */}
+                {/* Self Learning Goals - centered */}
                 <div className="reveal flex justify-center">
-                    <div className="spot-card card-hover bg-card rounded-2xl p-8 border border-purple-700/20 w-full max-w-lg">
-                        <h4 className="text-white font-bold text-lg mb-2 flex items-center justify-center gap-2">
-                            <Rocket size={18} className="text-purple-400" /> Self Learning Goals
+                    <div className="spot-card card-hover bg-card rounded-2xl p-6 sm:p-8 border border-purple-700/20 w-full max-w-lg">
+                        <h4 className="text-white font-bold text-base sm:text-lg mb-2 flex items-center justify-center gap-2 text-center">
+                            <Rocket size={18} className="text-purple-400 flex-shrink-0" /> Self Learning Goals
                         </h4>
                         <p className="text-center text-gray-600 text-xs mb-5">
                             {doneCount} of {goals.length} completed
                         </p>
 
-                        <div className="h-2 rounded-full bg-white/5 overflow-hidden mb-7 relative">
+                        <div className="h-2 rounded-full bg-white/5 overflow-hidden mb-6 sm:mb-7 relative">
                             <div
                                 className="h-full rounded-full bg-gradient-to-r from-green-400 to-purple-400 relative overflow-hidden"
                                 style={{ width: `${progressPct}%`, boxShadow: '0 0 10px rgba(168,85,247,0.6)' }}
@@ -425,9 +431,9 @@ function TimelineItem({ edu }) {
     const { ref, handleMove } = useSpotlight()
 
     return (
-        <div className="relative pl-14">
+        <div className="relative pl-12 sm:pl-14">
             <div
-                className={`absolute left-0 top-1 w-10 h-10 rounded-full flex items-center justify-center border-2 z-10 ${edu.ongoing ? 'pulse-node' : ''}`}
+                className={`absolute left-0 top-1 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 z-10 ${edu.ongoing ? 'pulse-node' : ''}`}
                 style={{
                     backgroundColor: `${edu.color}25`,
                     borderColor: edu.color,
@@ -440,12 +446,12 @@ function TimelineItem({ edu }) {
 
             {edu.ongoing ? (
                 <div className="relative rounded-2xl ongoing-border">
-                    <div ref={ref} onMouseMove={handleMove} className="spot-card card-hover bg-card rounded-2xl p-5 relative overflow-hidden">
+                    <div ref={ref} onMouseMove={handleMove} className="spot-card card-hover bg-card rounded-2xl p-4 sm:p-5 relative overflow-hidden">
                         <TimelineCardBody edu={edu} />
                     </div>
                 </div>
             ) : (
-                <div ref={ref} onMouseMove={handleMove} className="spot-card card-hover bg-card rounded-2xl p-5 relative overflow-hidden">
+                <div ref={ref} onMouseMove={handleMove} className="spot-card card-hover bg-card rounded-2xl p-4 sm:p-5 relative overflow-hidden">
                     <TimelineCardBody edu={edu} />
                 </div>
             )}
@@ -456,7 +462,7 @@ function TimelineItem({ edu }) {
 function TimelineCardBody({ edu }) {
     return (
         <>
-            <div className="flex items-start justify-between gap-2 mb-2 relative">
+            <div className="flex items-start justify-between gap-2 mb-2 relative flex-wrap">
                 <h4 className="text-white font-bold text-sm leading-snug">{edu.degree}</h4>
                 <span
                     className={`text-xs px-2 py-1 rounded-full whitespace-nowrap font-medium flex-shrink-0 ${edu.ongoing ? 'animate-pulse' : ''}`}
@@ -480,22 +486,19 @@ function CourseCard({ course }) {
             <div
                 ref={ref}
                 onMouseMove={handleMove}
-                className="spot-card card-hover bg-card rounded-2xl p-6 relative overflow-hidden"
+                className="spot-card card-hover bg-card rounded-2xl p-5 sm:p-6 relative overflow-hidden"
             >
 
-                {/* it is the online course card part */}
-
-
                 {/* Course Header */}
-                <div className="flex items-start justify-between gap-3 mb-5 relative">
-                    <div className="flex items-center gap-3">
+                <div className="flex items-start justify-between gap-3 mb-5 relative flex-wrap">
+                    <div className="flex items-center gap-3 min-w-0">
                         <span
                             className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
                             style={{ backgroundColor: `${course.color}20`, color: course.color }}
                         >
                             {course.icon}
                         </span>
-                        <div>
+                        <div className="min-w-0">
                             <h4 className="text-white font-bold text-sm leading-snug">{course.name}</h4>
                             <p className="text-purple-400 text-xs font-semibold mt-0.5">
                                 {course.platform} · {course.batch}
@@ -540,9 +543,9 @@ function CertificateLink({ cert }) {
             href={cert.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/cert block p-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-purple-500/30 transition-all duration-200"
+            className="group/cert block p-3 sm:p-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-purple-500/30 transition-all duration-200"
         >
-            <div className="flex items-center justify-between gap-2 mb-1">
+            <div className="flex items-center justify-between gap-2 mb-1 flex-wrap">
                 <div className="flex items-center gap-2 min-w-0">
                     <span className="flex-shrink-0">{cert.icon}</span>
                     <h5 className="text-xs font-semibold text-white truncate group-hover/cert:text-purple-300 transition-colors">
@@ -551,14 +554,14 @@ function CertificateLink({ cert }) {
                 </div>
                 <div className="flex items-center gap-1 flex-shrink-0">
                     <span
-                        className="text-[10px] px-2 py-0.5 rounded-full font-medium"
+                        className="text-[10px] px-2 py-0.5 rounded-full font-medium whitespace-nowrap"
                         style={{ backgroundColor: `${cert.badgeColor}20`, color: cert.badgeColor }}
                     >
                         {cert.type}
                     </span>
                     <ExternalLink
                         size={13}
-                        className="text-gray-500 group-hover/cert:text-purple-400 group-hover/cert:translate-x-0.5 group-hover/cert:-translate-y-0.5 transition-all ml-1"
+                        className="text-gray-500 group-hover/cert:text-purple-400 group-hover/cert:translate-x-0.5 group-hover/cert:-translate-y-0.5 transition-all ml-1 flex-shrink-0"
                     />
                 </div>
             </div>
@@ -588,7 +591,7 @@ function SkillChip({ skill }) {
 // Goal checklist item — completed checks pop in with a spring bounce
 function GoalItem({ label, done, active }) {
     return (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
             <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0
         ${done ? 'bg-green-500/20 text-green-400' :
                     active ? 'bg-purple-500/20 text-purple-400 animate-pulse' :
@@ -596,7 +599,7 @@ function GoalItem({ label, done, active }) {
             >
                 {done ? <Check size={12} className="pop-check" /> : active ? <ArrowRight size={12} /> : <Circle size={8} />}
             </div>
-            <span className={`text-sm
+            <span className={`text-sm flex-1 min-w-0
         ${done ? 'text-gray-400 line-through' :
                     active ? 'text-purple-300 font-medium' :
                         'text-gray-600'}`}
@@ -604,7 +607,7 @@ function GoalItem({ label, done, active }) {
                 {label}
             </span>
             {active && (
-                <span className="text-xs bg-purple-900/40 text-purple-400 px-2 py-0.5 rounded-full">
+                <span className="text-xs bg-purple-900/40 text-purple-400 px-2 py-0.5 rounded-full flex-shrink-0">
                     learning
                 </span>
             )}

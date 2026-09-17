@@ -81,7 +81,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="relative py-24 overflow-hidden"
+      className="relative py-16 sm:py-20 lg:py-24 overflow-hidden"
       ref={sectionRef}
       onMouseMove={handleMouseMove}
     >
@@ -173,8 +173,8 @@ export default function Skills() {
           WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
         }}
       >
-        <div className="absolute -top-10 left-1/4 w-80 h-80 bg-purple-600/15 rounded-full blur-[110px] float-blob-a" />
-        <div className="absolute bottom-0 right-1/5 w-80 h-80 bg-fuchsia-500/15 rounded-full blur-[110px] float-blob-b" />
+        <div className="absolute -top-10 left-1/4 w-56 h-56 sm:w-80 sm:h-80 bg-purple-600/15 rounded-full blur-[90px] sm:blur-[110px] float-blob-a" />
+        <div className="absolute bottom-0 right-1/5 w-56 h-56 sm:w-80 sm:h-80 bg-fuchsia-500/15 rounded-full blur-[90px] sm:blur-[110px] float-blob-b" />
         <div
           className="absolute inset-0 opacity-[0.15]"
           style={{
@@ -184,14 +184,14 @@ export default function Skills() {
           }}
         />
       </div>
-      <div className="max-w-6xl mx-auto px-6 relative">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
 
         {/* Heading */}
-        <div className="text-center mb-16 reveal">
-          <p className="text-purple-400 text-sm tracking-widest uppercase mb-3 font-mono">
+        <div className="text-center mb-10 sm:mb-16 reveal">
+          <p className="text-purple-400 text-xs sm:text-sm tracking-widest uppercase mb-3 font-mono">
             &gt; const expertise = () =&gt;
           </p>
-          <h2 className="text-4xl md:text-5xl font-black text-white">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
             My <span className="shimmer-heading">Skills</span>
           </h2>
         </div>
@@ -202,24 +202,24 @@ export default function Skills() {
             <span className="w-3 h-3 rounded-full bg-red-500/70" />
             <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
             <span className="w-3 h-3 rounded-full bg-green-500/70" />
-            <span className="ml-3 text-xs text-gray-500 font-mono">skills.config.js</span>
+            <span className="ml-3 text-xs text-gray-500 font-mono truncate">skills.config.js</span>
           </div>
           <TerminalBody start={animated} />
         </TiltCard>
 
         {/* Skill bars, grouped by category */}
-        <div className="mt-16 mb-24 space-y-12">
+        <div className="mt-12 sm:mt-16 mb-16 sm:mb-24 space-y-8 sm:space-y-12">
           {skillGroups.map((group, gi) => (
             <div key={group.category} className="reveal">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="h-4 w-1 rounded-full bg-gradient-to-b from-purple-400 to-fuchsia-500" />
+              <div className="flex items-center gap-3 mb-5 sm:mb-6">
+                <span className="h-4 w-1 rounded-full bg-gradient-to-b from-purple-400 to-fuchsia-500 flex-shrink-0" />
                 <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-gray-400">
                   {group.category}
                 </h3>
-                <span className="text-[11px] text-gray-600 font-mono">({group.skills.length})</span>
+                <span className="text-[11px] text-gray-600 font-mono flex-shrink-0">({group.skills.length})</span>
                 <span className="flex-1 h-px bg-gradient-to-r from-purple-700/30 to-transparent" />
               </div>
-              <div className="grid sm:grid-cols-2 gap-x-10 gap-y-6">
+              <div className="grid sm:grid-cols-2 gap-x-6 md:gap-x-10 gap-y-5 sm:gap-y-6">
                 {group.skills.map((skill, i) => (
                   <SkillBar
                     key={skill.name}
@@ -234,7 +234,7 @@ export default function Skills() {
         </div>
 
         {/* Tools orbit + Currently Learning */}
-        <div className="grid md:grid-cols-2 gap-12 items-center reveal">
+        <div className="grid md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center reveal">
 
           {/* Orbiting tools with comet trail (desktop) */}
           <div className="hidden md:flex justify-center">
@@ -286,7 +286,7 @@ export default function Skills() {
                 return (
                   <span
                     key={i}
-                    className="flex items-center gap-2 bg-card border border-purple-700/20 text-gray-300 text-sm px-4 py-2 rounded-full flex-shrink-0"
+                    className="flex items-center gap-2 bg-card border border-purple-700/20 text-gray-300 text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-full flex-shrink-0"
                   >
                     <Icon className="text-base" style={{ color: tool.color }} />
                     {tool.name}
@@ -304,14 +304,14 @@ export default function Skills() {
           >
             <div className="relative rounded-xl overflow-hidden border border-purple-700/30 bg-[#0d0a17]/80 backdrop-blur-sm">
               <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-purple-700/20">
-                <FaBook className="text-purple-300 text-sm" />
-                <span className="text-xs text-gray-400 font-mono">currently-learning.log</span>
-                <span className="ml-auto relative flex h-2 w-2">
+                <FaBook className="text-purple-300 text-sm flex-shrink-0" />
+                <span className="text-xs text-gray-400 font-mono truncate">currently-learning.log</span>
+                <span className="ml-auto relative flex h-2 w-2 flex-shrink-0">
                   <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
                 </span>
               </div>
-              <div className="p-5">
+              <div className="p-4 sm:p-5">
                 <TypewriterList items={learning} start={animated} startDelay={900} />
               </div>
             </div>
@@ -362,7 +362,7 @@ function TerminalBody({ start }) {
   const lines = [
     { text: 'const developer = {', indent: 0 },
     { text: "role: 'MERN Stack Developer',", indent: 1 },
-    { text: "strongest: ['JavaScript', 'React.js', 'Next.js'],", indent: 1 },
+    { text: "strongest: ['JavaScript', 'Next.js'],", indent: 1 },
     { text: "learning: ['TypeScript', 'PostgreeSQL'],", indent: 1 },
     { text: 'shipping: true,', indent: 1 },
     { text: '};', indent: 0 },
@@ -403,7 +403,7 @@ function TerminalBody({ start }) {
       .replace(/^(const)\b/, `<span class="text-purple-400">$1</span>`)
 
   return (
-    <div className="p-5 font-mono text-[13px] leading-relaxed">
+    <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed overflow-x-auto">
       {lines.map((line, i) => {
         const isPast = i < lineIndex
         const isCurrent = i === lineIndex && !done
@@ -456,9 +456,9 @@ function SkillBar({ skill, animated, delay }) {
 
   return (
     <div className={`transition-all duration-500 ease-out ${entered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-3'}`}>
-      <div className="flex justify-between items-baseline mb-1.5">
-        <span className="text-gray-300 text-sm font-medium">{skill.name}</span>
-        <span className="text-xs font-mono tabular-nums" style={{ color: skill.color }}>
+      <div className="flex justify-between items-baseline mb-1.5 gap-2">
+        <span className="text-gray-300 text-sm font-medium truncate">{skill.name}</span>
+        <span className="text-xs font-mono tabular-nums flex-shrink-0" style={{ color: skill.color }}>
           {displayValue}%
         </span>
       </div>
