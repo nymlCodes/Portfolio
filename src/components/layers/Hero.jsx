@@ -91,7 +91,7 @@ export default function Hero() {
                 Get In Touch
               </Link>
 
-              <a href="https://drive.google.com/file/d/1Qw0T0NhVzLnEBMKi-pOuT_kF95Nb0mch/view"
+              <a href="https://drive.google.com/file/d/1qbVFIHhEWMtQ-m-UawTH8NwfVrJbNJoq/view?usp=drive_link"
                 target='blank'
                 className="btn-glow flex items-center gap-2 border border-purple-700 text-purple-400 hover:text-white  px-8 py-3 rounded-full font-semibold transition-all duration-300"
               >
