@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { FiArrowUpRight } from 'react-icons/fi'
 import { Project } from '../types'
+import Image from 'next/image'
 
 interface ProjectCardProps {
   project: Project
@@ -121,7 +122,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
 
           {/* Thumbnail */}
           <div className="thumb-wrap w-full h-44 rounded-xl mb-4">
-            <img
+            <Image
               src={project.thumbnail}
               alt={project.title}
               className="thumb-img w-full h-full object-cover"
