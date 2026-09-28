@@ -17,7 +17,11 @@ export default function Contact() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}api/contact`, {
+      const rawServerUrl = process.env.NEXT_PUBLIC_SERVER_URL || '';
+      const baseUrl = rawServerUrl ? rawServerUrl.replace(/\/+$/, '') : '';
+      const endpoint = baseUrl ? `${baseUrl}/api/contact` : '/api/contact';
+
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -111,6 +111,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       <div
         className="glow-frame spot h-full"
         onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
+          if (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(pointer: fine)').matches) return
           const rect = e.currentTarget.getBoundingClientRect()
           e.currentTarget.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`)
           e.currentTarget.style.setProperty('--my', `${((e.clientY - rect.top) / rect.height) * 100}%`)

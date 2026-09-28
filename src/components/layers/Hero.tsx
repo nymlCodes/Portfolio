@@ -92,8 +92,9 @@ export default function Hero() {
               </Link>
 
               <a href="https://drive.google.com/file/d/1qbVFIHhEWMtQ-m-UawTH8NwfVrJbNJoq/view?usp=drive_link"
-                target='blank'
-                className="btn-glow flex items-center gap-2 border border-purple-700 text-purple-400 hover:text-white  px-8 py-3 rounded-full font-semibold transition-all duration-300"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-glow flex items-center gap-2 border border-purple-700 text-purple-400 hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300"
               >
                 <DownloadIcon />
                 My Resume

@@ -3,8 +3,12 @@ import { Project } from '../types';
 // app/lib/getProjectById.ts
 export default async function getProjectById(id: string): Promise<Project | null> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}projects/${id}`, {
-      cache: 'no-store', // or 'force-cache' / revalidate, depending on your needs
+    const rawServerUrl = process.env.NEXT_PUBLIC_SERVER_URL || '';
+    const baseUrl = rawServerUrl ? rawServerUrl.replace(/\/+$/, '') : '';
+    const endpoint = baseUrl ? `${baseUrl}/projects/${id}` : `/projects/${id}`;
+
+    const res = await fetch(endpoint, {
+      cache: 'no-store',
     });
     if (!res.ok) {
       console.error(`Failed to fetch project ${id}: ${res.status} ${res.statusText}`);

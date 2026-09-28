@@ -4,7 +4,11 @@ import { Project } from '../types';
 
 const getProjects = async (): Promise<Project[]> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}projects`, {
+    const rawServerUrl = process.env.NEXT_PUBLIC_SERVER_URL || '';
+    const baseUrl = rawServerUrl ? rawServerUrl.replace(/\/+$/, '') : '';
+    const endpoint = baseUrl ? `${baseUrl}/projects` : '/projects';
+
+    const res = await fetch(endpoint, {
       cache: 'no-store',
     });
 

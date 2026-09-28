@@ -45,6 +45,7 @@ function SpotlightCard({ children, className = '', tint = '124, 58, 237' }: Spot
             variants={fadeUp}
             whileHover={{ y: -4 }}
             onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
+                if (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(pointer: fine)').matches) return
                 const rect = e.currentTarget.getBoundingClientRect()
                 e.currentTarget.style.setProperty('--x', `${e.clientX - rect.left}px`)
                 e.currentTarget.style.setProperty('--y', `${e.clientY - rect.top}px`)

@@ -19,6 +19,7 @@ export default function About() {
   const spotlightRef = useRef<HTMLDivElement | null>(null)
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    if (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(pointer: fine)').matches) return
     const rect = sectionRef.current?.getBoundingClientRect()
     if (!rect || !spotlightRef.current) return
     const x = ((e.clientX - rect.left) / rect.width) * 100
@@ -205,6 +206,7 @@ function PhotoCard() {
   const cardRef = useRef<HTMLDivElement | null>(null)
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(pointer: fine)').matches) return
     const el = cardRef.current
     if (!el) return
     const rect = el.getBoundingClientRect()

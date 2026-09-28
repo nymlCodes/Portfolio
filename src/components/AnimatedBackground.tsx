@@ -35,7 +35,7 @@ interface ParticleItem {
 }
 
 // Creates floating particles.
-// Optimizes particle count on mobile screens to prevent layout and paint bottlenecks.
+// Optimizes particle count on mobile screens to prevent layout and paint bottlenecks on phones.
 function Particles() {
   const [particleCount, setParticleCount] = useState<number>(0)
 

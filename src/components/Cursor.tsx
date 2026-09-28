@@ -2,14 +2,9 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 
-interface Point {
-  x: number
-  y: number
-}
-
 export default function CustomCursor() {
-  const dotRef = useRef<HTMLDivElement | null>(null) // the small sharp dot that follows exactly
-  const ringRef = useRef<HTMLDivElement | null>(null) // the big ring that lags behind smoothly
+  const dotRef = useRef<HTMLDivElement | null>(null) // the center glowing dot
+  const ringRef = useRef<HTMLDivElement | null>(null) // the outer magnetic ring
   const trailsRef = useRef<(HTMLDivElement | null)[]>([]) // array of trail dots
   const [enabled, setEnabled] = useState(false)
 
@@ -36,63 +31,64 @@ export default function CustomCursor() {
 
     if (!dot || !ring) return
 
-    // Current real mouse position
-    let mouseX = 0
-    let mouseY = 0
+    // Target mouse position
+    let mouseX = window.innerWidth / 2
+    let mouseY = window.innerHeight / 2
 
-    // Ring lags behind - these are its "smooth" position
-    let ringX = 0
-    let ringY = 0
+    // Dot position - smooth micro-gliding transition
+    let dotX = mouseX
+    let dotY = mouseY
 
-    // Trail dots - each one lags a little more than the last
-    const trailPositions: Point[] = Array.from({ length: 8 }, () => ({ x: 0, y: 0 }))
+    // Ring position - smooth floaty lag (slower and more fluid)
+    let ringX = mouseX
+    let ringY = mouseY
 
-    // Hide the default browser cursor
+    // Trail dots - each one smoothly lags behind the previous
+    const trailPositions = Array.from({ length: 8 }, () => ({ x: mouseX, y: mouseY }))
+
+    // Hide default cursor
     document.body.style.cursor = 'none'
 
     // Track mouse position
     function onMouseMove(e: MouseEvent) {
       mouseX = e.clientX
       mouseY = e.clientY
-
-      // Dot snaps instantly to cursor
-      if (dot) {
-        dot.style.left = mouseX + 'px'
-        dot.style.top = mouseY + 'px'
-      }
     }
 
-    // When hovering a clickable element - make ring bigger
+    // When hovering a clickable element - expand ring & enhance glow
     function onMouseOver(e: MouseEvent) {
       const target = e.target as HTMLElement | null
       if (!target || !ring || !dot) return
-
       const tag = target.tagName ? target.tagName.toLowerCase() : ''
       const isClickable =
         ['a', 'button', 'input', 'textarea'].includes(tag) ||
         Boolean(target.closest?.('a, button'))
 
       if (isClickable) {
-        ring.style.width = '50px'
-        ring.style.height = '50px'
-        ring.style.borderColor = '#a78bfa'
-        ring.style.backgroundColor = 'rgba(124,58,237,0.1)'
-        dot.style.width = '6px'
-        dot.style.height = '6px'
+        ring.style.width = '52px'
+        ring.style.height = '52px'
+        ring.style.borderColor = '#c084fc'
+        ring.style.backgroundColor = 'rgba(168, 85, 247, 0.14)'
+        ring.style.boxShadow = '0 0 20px rgba(168, 85, 247, 0.6), inset 0 0 12px rgba(168, 85, 247, 0.25)'
+        dot.style.width = '5px'
+        dot.style.height = '5px'
+        dot.style.backgroundColor = '#f3e8ff'
       } else {
-        ring.style.width = '32px'
-        ring.style.height = '32px'
-        ring.style.borderColor = 'rgba(167,139,250,0.8)'
+        ring.style.width = '34px'
+        ring.style.height = '34px'
+        ring.style.borderColor = 'rgba(167, 139, 250, 0.75)'
         ring.style.backgroundColor = 'transparent'
-        dot.style.width = '8px'
-        dot.style.height = '8px'
+        ring.style.boxShadow = '0 0 10px rgba(124, 58, 237, 0.35), inset 0 0 6px rgba(124, 58, 237, 0.1)'
+        dot.style.width = '7px'
+        dot.style.height = '7px'
+        dot.style.backgroundColor = '#ffffff'
       }
     }
 
-    // When clicking - burst effect
+    // When clicking - elastic burst effect
     function onMouseDown() {
-      if (ring) ring.style.transform = 'translate(-50%, -50%) scale(0.7)'
-      if (dot) dot.style.transform = 'translate(-50%, -50%) scale(1.5)'
+      if (ring) ring.style.transform = 'translate(-50%, -50%) scale(0.65)'
+      if (dot) dot.style.transform = 'translate(-50%, -50%) scale(1.6)'
     }
     function onMouseUp() {
       if (ring) ring.style.transform = 'translate(-50%, -50%) scale(1)'
@@ -103,48 +99,60 @@ export default function CustomCursor() {
     function onMouseLeave() {
       if (dot) dot.style.opacity = '0'
       if (ring) ring.style.opacity = '0'
+      trailsRef.current.forEach((el) => {
+        if (el) el.style.opacity = '0'
+      })
     }
     function onMouseEnter() {
       if (dot) dot.style.opacity = '1'
       if (ring) ring.style.opacity = '1'
     }
 
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mouseover', onMouseOver)
-    document.addEventListener('mousedown', onMouseDown)
-    document.addEventListener('mouseup', onMouseUp)
-    document.addEventListener('mouseleave', onMouseLeave)
-    document.addEventListener('mouseenter', onMouseEnter)
+    document.addEventListener('mousemove', onMouseMove, { passive: true })
+    document.addEventListener('mouseover', onMouseOver, { passive: true })
+    document.addEventListener('mousedown', onMouseDown, { passive: true })
+    document.addEventListener('mouseup', onMouseUp, { passive: true })
+    document.addEventListener('mouseleave', onMouseLeave, { passive: true })
+    document.addEventListener('mouseenter', onMouseEnter, { passive: true })
 
     let animationFrameId: number
 
-    // Animation loop - smoothly moves the ring and trail toward mouse
+    // Slower, silkier physics animation loop
     function animate() {
-      // Ring follows with lerp (linear interpolation) - feels smooth and floaty
-      // 0.12 = how fast it catches up (lower = more lag)
-      ringX += (mouseX - ringX) * 0.12
-      ringY += (mouseY - ringY) * 0.12
+      // 1. Center dot smoothly catches up with a gentle micro-transition (slower than instant)
+      dotX += (mouseX - dotX) * 0.32
+      dotY += (mouseY - dotY) * 0.32
 
-      if (ring) {
-        ring.style.left = ringX + 'px'
-        ring.style.top = ringY + 'px'
+      if (dot) {
+        dot.style.left = `${dotX}px`
+        dot.style.top = `${dotY}px`
       }
 
-      // Each trail dot follows the one before it
+      // 2. Outer ring catches up with a slower, floatier lag (0.072 factor for luxurious smoothness)
+      ringX += (mouseX - ringX) * 0.072
+      ringY += (mouseY - ringY) * 0.072
+
+      if (ring) {
+        ring.style.left = `${ringX}px`
+        ring.style.top = `${ringY}px`
+      }
+
+      // 3. Trailing particles follow smoothly in a delicate cascade
       trailsRef.current.forEach((el, i) => {
         if (!el) return
-        const target =
-          i === 0 ? { x: mouseX, y: mouseY } : trailPositions[i - 1]
+        const target = i === 0 ? { x: dotX, y: dotY } : trailPositions[i - 1]
 
-        trailPositions[i].x += (target.x - trailPositions[i].x) * (0.25 - i * 0.02)
-        trailPositions[i].y += (target.y - trailPositions[i].y) * (0.25 - i * 0.02)
+        // Slower cascading interpolation factor
+        const speed = 0.15 - i * 0.012
+        trailPositions[i].x += (target.x - trailPositions[i].x) * speed
+        trailPositions[i].y += (target.y - trailPositions[i].y) * speed
 
-        el.style.left = trailPositions[i].x + 'px'
-        el.style.top = trailPositions[i].y + 'px'
+        el.style.left = `${trailPositions[i].x}px`
+        el.style.top = `${trailPositions[i].y}px`
 
-        // Trail fades out toward the end
-        el.style.opacity = String(((8 - i) / 8) * 0.4)
-        const size = (8 - i) * 1.2 + 'px'
+        // Soft progressive fade and scale
+        el.style.opacity = String(((8 - i) / 8) * 0.35)
+        const size = (8 - i) * 1.05 + 'px'
         el.style.width = size
         el.style.height = size
       })
@@ -154,7 +162,6 @@ export default function CustomCursor() {
 
     animate()
 
-    // Restore default cursor when component is removed
     return () => {
       document.body.style.cursor = 'auto'
       document.removeEventListener('mousemove', onMouseMove)
@@ -171,41 +178,57 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Sharp dot - snaps to cursor instantly */}
+      <style jsx>{`
+        @keyframes ring-breathe {
+          0%, 100% {
+            filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.45));
+          }
+          50% {
+            filter: drop-shadow(0 0 14px rgba(192, 132, 252, 0.8));
+          }
+        }
+        .cursor-ring-animated {
+          animation: ring-breathe 3s ease-in-out infinite;
+        }
+      `}</style>
+
+      {/* Center sharp dot with smooth micro-gliding transition */}
       <div
         ref={dotRef}
         style={{
           position: 'fixed',
-          width: '8px',
-          height: '8px',
+          width: '7px',
+          height: '7px',
           borderRadius: '50%',
           background: 'white',
-          boxShadow: '0 0 6px #a78bfa, 0 0 12px #7c3aed',
+          boxShadow: '0 0 8px #c084fc, 0 0 16px #7c3aed',
           transform: 'translate(-50%, -50%)',
           pointerEvents: 'none',
           zIndex: 99999,
-          transition: 'width 0.2s, height 0.2s',
+          transition: 'width 0.25s ease, height 0.25s ease, background-color 0.25s ease, transform 0.15s ease',
         }}
       />
 
-      {/* Glowing ring - lags behind smoothly */}
+      {/* Outer floating ring with slower magnetic lag and breathing glow */}
       <div
         ref={ringRef}
+        className="cursor-ring-animated"
         style={{
           position: 'fixed',
-          width: '32px',
-          height: '32px',
+          width: '34px',
+          height: '34px',
           borderRadius: '50%',
-          border: '1.5px solid rgba(167,139,250,0.8)',
-          boxShadow: '0 0 8px rgba(124,58,237,0.4), inset 0 0 8px rgba(124,58,237,0.1)',
+          border: '1.5px solid rgba(167, 139, 250, 0.75)',
+          boxShadow: '0 0 10px rgba(124, 58, 237, 0.35), inset 0 0 6px rgba(124, 58, 237, 0.1)',
           transform: 'translate(-50%, -50%)',
           pointerEvents: 'none',
           zIndex: 99998,
-          transition: 'width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s, transform 0.1s',
+          transition:
+            'width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.3s ease, transform 0.15s ease',
         }}
       />
 
-      {/* Trail dots - 8 dots that follow the cursor */}
+      {/* Trail dots - 8 graceful cascading particles */}
       {Array.from({ length: 8 }, (_, i) => (
         <div
           key={i}
@@ -215,11 +238,12 @@ export default function CustomCursor() {
           style={{
             position: 'fixed',
             borderRadius: '50%',
-            background: `rgba(167, 139, 250, 1)`,
-            boxShadow: '0 0 4px #7c3aed',
+            background: 'rgba(167, 139, 250, 0.95)',
+            boxShadow: '0 0 6px #7c3aed',
             transform: 'translate(-50%, -50%)',
             pointerEvents: 'none',
             zIndex: 99997,
+            transition: 'opacity 0.2s ease',
           }}
         />
       ))}

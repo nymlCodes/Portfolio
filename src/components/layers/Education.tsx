@@ -105,6 +105,7 @@ export default function Education() {
     }, [])
 
     const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+        if (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(pointer: fine)').matches) return
         const rect = sectionRef.current?.getBoundingClientRect()
         if (!rect || !spotlightRef.current) return
         const x = ((e.clientX - rect.left) / rect.width) * 100
@@ -430,6 +431,7 @@ function StatRing({ icon, label, value, max, display, color, animated, delay }: 
 function useSpotlight() {
     const ref = useRef<HTMLDivElement | null>(null)
     const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(pointer: fine)').matches) return
         const el = ref.current
         if (!el) return
         const rect = el.getBoundingClientRect()
