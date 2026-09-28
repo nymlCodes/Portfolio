@@ -1,6 +1,8 @@
 'use server';
 
-const getProjects = async () => {
+import { Project } from '../types';
+
+const getProjects = async (): Promise<Project[]> => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}projects`, {
       cache: 'no-store',
@@ -11,7 +13,7 @@ const getProjects = async () => {
       return [];
     }
 
-    const projects = await res.json();
+    const projects: Project[] = await res.json();
     return projects || [];
   } catch (error) {
     console.error("Error fetching projects:", error);

@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, type Variants } from 'motion/react'
 import {
   ChevronUp,
   ChevronDown,
@@ -16,9 +16,17 @@ import {
   ChevronRight,
   X,
   Compass,
+  type LucideIcon,
 } from 'lucide-react'
+import { IntroStage } from '../../types'
 
-const routes = [
+interface RouteItem {
+  path: string
+  name: string
+  icon: LucideIcon
+}
+
+const routes: RouteItem[] = [
   { path: '/', name: 'Home', icon: Home },
   { path: '/about', name: 'About', icon: User },
   { path: '/skills', name: 'Skills', icon: Code2 },
@@ -27,13 +35,17 @@ const routes = [
   { path: '/contact', name: 'Contact', icon: Mail },
 ]
 
-export default function RouteSwitch({ introStage = 'completed' }) {
+interface RouteSwitchProps {
+  introStage?: IntroStage
+}
+
+export default function RouteSwitch({ introStage = 'completed' }: RouteSwitchProps) {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [openKey, setOpenKey] = useState(0)
-  const containerRef = useRef(null)
-  const prevExpandedRef = useRef(false)
+  const containerRef = useRef<HTMLElement | null>(null)
+  const prevExpandedRef = useRef<boolean>(false)
 
   // Find current index
   let currentIndex = routes.findIndex((r) => r.path === pathname)
@@ -58,8 +70,8 @@ export default function RouteSwitch({ introStage = 'completed' }) {
 
   // Close desktop menu on outside click or touch
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+    function handleClickOutside(event: MouseEvent | TouchEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false)
       }
     }
@@ -84,7 +96,7 @@ export default function RouteSwitch({ introStage = 'completed' }) {
 
   // ── Unified nav item animation: cascade in from TOP LEFT ──
   // Used for both page-load intro and every hover/click open
-  const navItemVariants = {
+  const navItemVariants: Variants = {
     hidden: {
       opacity: 0,
       x: -55,
@@ -92,7 +104,7 @@ export default function RouteSwitch({ introStage = 'completed' }) {
       scale: 0.72,
       rotate: -10,
     },
-    visible: (i) => ({
+    visible: (i: number) => ({
       opacity: 1,
       x: 0,
       y: 0,
@@ -107,7 +119,7 @@ export default function RouteSwitch({ introStage = 'completed' }) {
   }
 
   // Mobile bottom nav entrance variants
-  const mobileNavVariants = {
+  const mobileNavVariants: Variants = {
     hidden: { y: 100, opacity: 0 },
     visible: {
       y: 0,
@@ -116,9 +128,9 @@ export default function RouteSwitch({ introStage = 'completed' }) {
     },
   }
 
-  const mobileItemVariants = {
+  const mobileItemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: (i) => ({
+    visible: (i: number) => ({
       opacity: 1,
       y: 0,
       transition: { duration: 0.4, delay: 0.3 + i * 0.06, ease: [0.22, 1, 0.36, 1] },

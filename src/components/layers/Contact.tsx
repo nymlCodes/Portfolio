@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { FaLinkedin, FaPhoneAlt, FaWhatsapp, FaEnvelope, FaCheckCircle } from 'react-icons/fa'
 
 export default function Contact() {
@@ -8,12 +8,12 @@ export default function Contact() {
   const [sent, setSent] = useState(false)
 
   // Handle form input changes
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   // Handle form submit - opens email client with pre-filled data
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
@@ -172,8 +172,15 @@ export default function Contact() {
   )
 }
 
+interface ContactItemProps {
+  icon: React.ReactNode
+  label: string
+  value: string
+  href?: string
+}
+
 // Contact info row
-function ContactItem({ icon, label, value, href }) {
+function ContactItem({ icon, label, value, href }: ContactItemProps) {
   const content = (
     <div className="card-hover bg-card rounded-xl p-4 flex items-center gap-4">
       <span className="text-2xl text-purple-400">{icon}</span>

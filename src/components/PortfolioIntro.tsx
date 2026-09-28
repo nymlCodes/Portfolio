@@ -1,9 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { IntroStage } from '../types'
 
-export default function PortfolioIntro({ onIntroStageChange }) {
-  const [stage, setStage] = useState('entering')
+interface PortfolioIntroProps {
+  onIntroStageChange?: (stage: IntroStage) => void
+}
+
+export default function PortfolioIntro({ onIntroStageChange }: PortfolioIntroProps) {
+  const [, setStage] = useState<IntroStage>('entering')
 
   useEffect(() => {
     // Stage 1: 'entering' (0ms) -> Navigation buttons slither from TOP RIGHT like a snake one by one

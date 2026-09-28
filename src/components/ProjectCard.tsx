@@ -1,14 +1,20 @@
 import React from 'react'
 import Link from 'next/link'
 import { FiArrowUpRight } from 'react-icons/fi'
+import { Project } from '../types'
 
-const statusColor = {
+interface ProjectCardProps {
+  project: Project
+  index: number
+}
+
+const statusColor: Record<string, string> = {
   live: '#4ade80',
   'in progress': '#facc15',
   archived: '#94a3b8',
 }
 
-export default function ProjectCard({ project, index }) {
+export default function ProjectCard({ project, index }: ProjectCardProps) {
   const dotColor = statusColor[project.status?.toLowerCase()] || '#a78bfa'
 
   return (
@@ -104,7 +110,7 @@ export default function ProjectCard({ project, index }) {
 
       <div
         className="glow-frame spot h-full"
-        onMouseMove={(e) => {
+        onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
           const rect = e.currentTarget.getBoundingClientRect()
           e.currentTarget.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`)
           e.currentTarget.style.setProperty('--my', `${((e.clientY - rect.top) / rect.height) * 100}%`)
@@ -147,7 +153,7 @@ export default function ProjectCard({ project, index }) {
           </p>
 
           <div className="flex flex-wrap gap-2 mt-4 mb-5">
-            {project.technologies.slice(0, 3).map((tech) => (
+            {project.technologies?.slice(0, 3).map((tech) => (
               <span
                 key={tech}
                 className="tech-chip text-xs px-3 py-1 rounded-full bg-purple-500/15 text-purple-400 border border-purple-500/30"
@@ -158,7 +164,7 @@ export default function ProjectCard({ project, index }) {
           </div>
 
           <Link
-            href={`/details/${project._id}`}
+            href={`/details/${project._id || project.id}`}
             className="details-link flex items-center justify-center gap-1.5 text-sm font-semibold text-purple-400 hover:text-white hover:bg-purple-500/10 border border-purple-700 rounded-full py-2"
           >
             View Details

@@ -1,15 +1,21 @@
+import React from 'react'
+import type { Metadata } from 'next'
 import './globals.css'
 import HomeClient from '../components/HomeClient'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Neyamul Islam | MERN Stack Developer',
   description: 'Portfolio of Neyamul Islam - MERN Stack Developer',
-  icons:{
-    icon:'/favicon.png'
-  }
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <head>

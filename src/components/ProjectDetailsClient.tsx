@@ -1,7 +1,8 @@
 'use client'
 
+import React from 'react'
 import Link from 'next/link'
-import { motion } from 'motion/react'
+import { motion, type Variants } from 'motion/react'
 import {
     FaGithub,
     FaExternalLinkAlt,
@@ -16,33 +17,40 @@ import {
     FaArrowLeft,
     FaServer,
 } from 'react-icons/fa'
+import { Project } from '../types'
 
-const fadeUp = {
+const fadeUp: Variants = {
     hidden: { opacity: 0, y: 24 },
     show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 }
 
-const container = {
+const container: Variants = {
     hidden: {},
     show: {
         transition: { staggerChildren: 0.08, delayChildren: 0.1 },
     },
 }
 
+interface SpotlightCardProps {
+    children: React.ReactNode
+    className?: string
+    tint?: string
+}
+
 /** Card with a mouse-tracking radial spotlight border — matches the ambient-orb
  *  language used across the rest of the site (AnimatedBackground). */
-function SpotlightCard({ children, className = '', tint = '124, 58, 237' }) {
+function SpotlightCard({ children, className = '', tint = '124, 58, 237' }: SpotlightCardProps) {
     return (
         <motion.div
             variants={fadeUp}
             whileHover={{ y: -4 }}
-            onMouseMove={(e) => {
+            onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
                 const rect = e.currentTarget.getBoundingClientRect()
                 e.currentTarget.style.setProperty('--x', `${e.clientX - rect.left}px`)
                 e.currentTarget.style.setProperty('--y', `${e.clientY - rect.top}px`)
             }}
             className={`group/spot relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] transition-colors duration-300 hover:border-white/20 ${className}`}
-            style={{ '--x': '50%', '--y': '50%' }}
+            style={{ '--x': '50%', '--y': '50%' } as React.CSSProperties}
         >
             <div
                 className="pointer-events-none absolute inset-0 opacity-0 group-hover/spot:opacity-100 transition-opacity duration-300"
@@ -55,7 +63,11 @@ function SpotlightCard({ children, className = '', tint = '124, 58, 237' }) {
     )
 }
 
-export default function ProjectDetailsClient({ project }) {
+interface ProjectDetailsClientProps {
+    project: Project | null
+}
+
+export default function ProjectDetailsClient({ project }: ProjectDetailsClientProps) {
     if (!project) {
         return (
             <div className="max-w-3xl mx-auto px-6 py-32 text-center">
@@ -157,14 +169,18 @@ export default function ProjectDetailsClient({ project }) {
 
                 {/* Quick info row */}
                 <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mb-10 text-sm">
-                    <div className="flex items-center gap-2 bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-purple-500/30 rounded-full px-4 py-2 text-gray-300 transition-colors duration-300">
-                        <FaClock className="text-purple-400" />
-                        {project.duration}
-                    </div>
-                    <div className="flex items-center gap-2 bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-purple-500/30 rounded-full px-4 py-2 text-gray-300 transition-colors duration-300">
-                        <FaUsers className="text-purple-400" />
-                        {project.team}
-                    </div>
+                    {project.duration && (
+                        <div className="flex items-center gap-2 bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-purple-500/30 rounded-full px-4 py-2 text-gray-300 transition-colors duration-300">
+                            <FaClock className="text-purple-400" />
+                            {project.duration}
+                        </div>
+                    )}
+                    {project.team && (
+                        <div className="flex items-center gap-2 bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-purple-500/30 rounded-full px-4 py-2 text-gray-300 transition-colors duration-300">
+                            <FaUsers className="text-purple-400" />
+                            {project.team}
+                        </div>
+                    )}
                 </motion.div>
 
                 {/* Links */}
@@ -210,37 +226,41 @@ export default function ProjectDetailsClient({ project }) {
                 </motion.div>
 
                 {/* Technologies */}
-                <Section title="Technologies" icon={<FaTag />}>
-                    <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((tech) => (
-                            <motion.span
-                                key={tech}
-                                variants={fadeUp}
-                                whileHover={{ y: -3, scale: 1.05 }}
-                                className="text-sm px-4 py-2 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/25 hover:border-purple-400/60 hover:bg-purple-500/20 hover:text-white hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300 cursor-default"
-                            >
-                                {tech}
-                            </motion.span>
-                        ))}
-                    </div>
-                </Section>
+                {project.technologies && project.technologies.length > 0 && (
+                    <Section title="Technologies" icon={<FaTag />}>
+                        <div className="flex flex-wrap gap-2">
+                            {project.technologies.map((tech) => (
+                                <motion.span
+                                    key={tech}
+                                    variants={fadeUp}
+                                    whileHover={{ y: -3, scale: 1.05 }}
+                                    className="text-sm px-4 py-2 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/25 hover:border-purple-400/60 hover:bg-purple-500/20 hover:text-white hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300 cursor-default"
+                                >
+                                    {tech}
+                                </motion.span>
+                            ))}
+                        </div>
+                    </Section>
+                )}
 
                 {/* Features */}
-                <Section title="Features" icon={<FaCheckCircle />}>
-                    <div className="grid sm:grid-cols-2 gap-3">
-                        {project.features.map((feature) => (
-                            <SpotlightCard key={feature} className="px-4 py-3" tint="124, 58, 237">
-                                <div className="flex items-start gap-3 text-gray-300 text-sm">
-                                    <FaCheckCircle className="text-purple-400 mt-0.5 flex-shrink-0" />
-                                    {feature}
-                                </div>
-                            </SpotlightCard>
-                        ))}
-                    </div>
-                </Section>
+                {project.features && project.features.length > 0 && (
+                    <Section title="Features" icon={<FaCheckCircle />}>
+                        <div className="grid sm:grid-cols-2 gap-3">
+                            {project.features.map((feature) => (
+                                <SpotlightCard key={feature} className="px-4 py-3" tint="124, 58, 237">
+                                    <div className="flex items-start gap-3 text-gray-300 text-sm">
+                                        <FaCheckCircle className="text-purple-400 mt-0.5 flex-shrink-0" />
+                                        {feature}
+                                    </div>
+                                </SpotlightCard>
+                            ))}
+                        </div>
+                    </Section>
+                )}
 
                 {/* Errors / Challenges */}
-                {project.errors?.length > 0 && (
+                {project.errors && project.errors.length > 0 && (
                     <Section title="Challenges & Solutions" icon={<FaBug />}>
                         <div className="space-y-4">
                             {project.errors.map((err) => (
@@ -268,24 +288,26 @@ export default function ProjectDetailsClient({ project }) {
                 )}
 
                 {/* Lessons Learned */}
-                <Section title="Lessons Learned" icon={<FaLightbulb />}>
-                    <div className="space-y-2.5">
-                        {project.lessonsLearned.map((lesson) => (
-                            <motion.div
-                                key={lesson}
-                                variants={fadeUp}
-                                whileHover={{ x: 4 }}
-                                className="flex items-start gap-3 bg-fuchsia-500/[0.04] hover:bg-fuchsia-500/[0.09] border border-fuchsia-400/15 hover:border-fuchsia-400/40 rounded-xl px-4 py-3 text-gray-300 text-sm transition-all duration-300"
-                            >
-                                <FaLightbulb className="text-fuchsia-300 mt-0.5 flex-shrink-0" />
-                                {lesson}
-                            </motion.div>
-                        ))}
-                    </div>
-                </Section>
+                {project.lessonsLearned && project.lessonsLearned.length > 0 && (
+                    <Section title="Lessons Learned" icon={<FaLightbulb />}>
+                        <div className="space-y-2.5">
+                            {project.lessonsLearned.map((lesson) => (
+                                <motion.div
+                                    key={lesson}
+                                    variants={fadeUp}
+                                    whileHover={{ x: 4 }}
+                                    className="flex items-start gap-3 bg-fuchsia-500/[0.04] hover:bg-fuchsia-500/[0.09] border border-fuchsia-400/15 hover:border-fuchsia-400/40 rounded-xl px-4 py-3 text-gray-300 text-sm transition-all duration-300"
+                                >
+                                    <FaLightbulb className="text-fuchsia-300 mt-0.5 flex-shrink-0" />
+                                    {lesson}
+                                </motion.div>
+                            ))}
+                        </div>
+                    </Section>
+                )}
 
                 {/* Future Plans */}
-                {project.futurePlans?.length > 0 && (
+                {project.futurePlans && project.futurePlans.length > 0 && (
                     <Section title="Future Plans" icon={<FaRocket />}>
                         <div className="space-y-2.5">
                             {project.futurePlans.map((plan) => (
@@ -307,7 +329,13 @@ export default function ProjectDetailsClient({ project }) {
     )
 }
 
-function Section({ title, icon, children }) {
+interface SectionProps {
+    title: string
+    icon: React.ReactNode
+    children: React.ReactNode
+}
+
+function Section({ title, icon, children }: SectionProps) {
     return (
         <motion.div
             variants={fadeUp}

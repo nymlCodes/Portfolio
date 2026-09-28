@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { GraduationCap, Check, ArrowRight, Circle, Globe, Rocket, BookOpen, Layers, ExternalLink, Award, ShieldCheck } from 'lucide-react'
 import { FaUniversity, FaLaptopCode, FaReact, FaJs, FaNodeJs } from 'react-icons/fa'
 import { LiaUniversitySolid } from 'react-icons/lia'
 import { SiExpress, SiNextdotjs, SiTailwindcss } from 'react-icons/si'
+import { EducationItem, CourseData, CertificateItem, GoalItemData, CourseSkill } from '../../types'
 
-const educationData = [
+const educationData: EducationItem[] = [
     {
         degree: 'Bachelors of Business Administration (BBA)',
         institution: 'Govt. Haraganga College, Munshiganj',
@@ -37,7 +38,7 @@ const educationData = [
     },
 ]
 
-const coursesData = {
+const coursesData: CourseData = {
     name: 'Complete Web Development',
     platform: 'Programming Hero',
     batch: 'Batch-13',
@@ -54,7 +55,7 @@ const coursesData = {
     ],
 }
 
-const certificatesData = [
+const certificatesData: CertificateItem[] = [
     {
         title: 'Complete Web Development Certificate',
         issuer: 'Programming Hero',
@@ -75,7 +76,7 @@ const certificatesData = [
     },
 ]
 
-const goals = [
+const goals: GoalItemData[] = [
     { label: 'TypeScript', active: true },
     { label: 'PostgreeSQL', active: true },
     { label: 'Prisma', active: true },
@@ -83,8 +84,8 @@ const goals = [
 
 export default function Education() {
     const [animated, setAnimated] = useState(false)
-    const sectionRef = useRef(null)
-    const spotlightRef = useRef(null)
+    const sectionRef = useRef<HTMLElement | null>(null)
+    const spotlightRef = useRef<HTMLDivElement | null>(null)
 
     const doneCount = goals.filter(g => g.done).length
     const progressPct = Math.round((doneCount / goals.length) * 100)
@@ -103,7 +104,7 @@ export default function Education() {
         return () => observer.disconnect()
     }, [])
 
-    const handleMouseMove = useCallback((e) => {
+    const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
         const rect = sectionRef.current?.getBoundingClientRect()
         if (!rect || !spotlightRef.current) return
         const x = ((e.clientX - rect.left) / rect.width) * 100
@@ -346,8 +347,19 @@ export default function Education() {
     )
 }
 
+interface StatRingProps {
+    icon: React.ReactNode
+    label: string
+    value: number
+    max: number
+    display: string
+    color: string
+    animated: boolean
+    delay: number
+}
+
 // Small circular stat ring with count-up, matching the Skills page's ring motif
-function StatRing({ icon, label, value, max, display, color, animated, delay }) {
+function StatRing({ icon, label, value, max, display, color, animated, delay }: StatRingProps) {
     const size = 84
     const strokeWidth = 6
     const radius = (size - strokeWidth) / 2
@@ -359,10 +371,10 @@ function StatRing({ icon, label, value, max, display, color, animated, delay }) 
         if (!animated) return
         const enterTimer = setTimeout(() => setEntered(true), delay)
         const duration = 1100
-        let rafId
+        let rafId: number
         const countTimer = setTimeout(() => {
             const start = performance.now()
-            const tick = (now) => {
+            const tick = (now: number) => {
                 const elapsed = now - start
                 const progress = Math.min(elapsed / duration, 1)
                 const eased = 1 - Math.pow(1 - progress, 3)
@@ -416,8 +428,8 @@ function StatRing({ icon, label, value, max, display, color, animated, delay }) 
 }
 
 function useSpotlight() {
-    const ref = useRef(null)
-    const handleMove = (e) => {
+    const ref = useRef<HTMLDivElement | null>(null)
+    const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const el = ref.current
         if (!el) return
         const rect = el.getBoundingClientRect()
@@ -427,7 +439,7 @@ function useSpotlight() {
     return { ref, handleMove }
 }
 
-function TimelineItem({ edu }) {
+function TimelineItem({ edu }: { edu: EducationItem }) {
     const { ref, handleMove } = useSpotlight()
 
     return (
@@ -439,7 +451,7 @@ function TimelineItem({ edu }) {
                     borderColor: edu.color,
                     color: edu.color,
                     '--ring-color': `${edu.color}60`,
-                }}
+                } as React.CSSProperties}
             >
                 {edu.icon}
             </div>
@@ -459,7 +471,7 @@ function TimelineItem({ edu }) {
     )
 }
 
-function TimelineCardBody({ edu }) {
+function TimelineCardBody({ edu }: { edu: EducationItem }) {
     return (
         <>
             <div className="flex items-start justify-between gap-2 mb-2 relative flex-wrap">
@@ -478,7 +490,7 @@ function TimelineCardBody({ edu }) {
     )
 }
 
-function CourseCard({ course }) {
+function CourseCard({ course }: { course: CourseData }) {
     const { ref, handleMove } = useSpotlight()
 
     return (
@@ -537,7 +549,7 @@ function CourseCard({ course }) {
     )
 }
 
-function CertificateLink({ cert }) {
+function CertificateLink({ cert }: { cert: CertificateItem }) {
     return (
         <a
             href={cert.link}
@@ -572,7 +584,7 @@ function CertificateLink({ cert }) {
     )
 }
 
-function SkillChip({ skill }) {
+function SkillChip({ skill }: { skill: CourseSkill }) {
     return (
         <span
             className="skill-chip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border"
@@ -588,8 +600,14 @@ function SkillChip({ skill }) {
     )
 }
 
+interface GoalItemProps {
+    label: string
+    done?: boolean
+    active?: boolean
+}
+
 // Goal checklist item — completed checks pop in with a spring bounce
-function GoalItem({ label, done, active }) {
+function GoalItem({ label, done, active }: GoalItemProps) {
     return (
         <div className="flex items-center gap-3 flex-wrap">
             <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0

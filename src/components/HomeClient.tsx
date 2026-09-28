@@ -1,15 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import RouteSwitch from './layers/RouteSwitch'
 import AnimatedBackground from './AnimatedBackground'
 import CustomCursor from './Cursor'
 import SplashScreen from './SplashScreen'
 import PortfolioIntro from './PortfolioIntro'
+import { IntroStage } from '../types'
 
-export default function HomeClient({ children }) {
+interface HomeClientProps {
+  children: React.ReactNode
+}
+
+export default function HomeClient({ children }: HomeClientProps) {
   const [splashDone, setSplashDone] = useState(false)
-  const [introStage, setIntroStage] = useState('idle')
+  const [introStage, setIntroStage] = useState<IntroStage>('idle')
 
   const handleSplashFinished = () => {
     setSplashDone(true)

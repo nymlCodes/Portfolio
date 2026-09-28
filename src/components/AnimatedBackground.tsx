@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // This component creates the animated background:
 // - 3 glowing orbs that move slowly
@@ -26,10 +26,18 @@ export default function AnimatedBackground() {
   )
 }
 
+interface ParticleItem {
+  id: number
+  left: string
+  duration: string
+  delay: string
+  size: string
+}
+
 // Creates floating particles.
 // Optimizes particle count on mobile screens to prevent layout and paint bottlenecks.
 function Particles() {
-  const [particleCount, setParticleCount] = useState(0)
+  const [particleCount, setParticleCount] = useState<number>(0)
 
   useEffect(() => {
     // Only run on client side. Detect if mobile screen size.
@@ -37,7 +45,7 @@ function Particles() {
     setParticleCount(isMobile ? 15 : 60)
   }, [])
 
-  const particles = Array.from({ length: particleCount }, (_, i) => ({
+  const particles: ParticleItem[] = Array.from({ length: particleCount }, (_, i) => ({
     id: i,
     left: `${Math.random() * 100}%`,
     duration: `${8 + Math.random() * 12}s`,

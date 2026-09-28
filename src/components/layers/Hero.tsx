@@ -1,8 +1,8 @@
 'use client'
 
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
 
 // Roles cycling in the typewriter animation
 const roles = [
@@ -19,7 +19,7 @@ export default function Hero() {
 
   // Robust Typewriter effect logic
   useEffect(() => {
-    let timer
+    let timer: NodeJS.Timeout
     const currentFullText = roles[roleIndex]
 
     if (isDeleting) {

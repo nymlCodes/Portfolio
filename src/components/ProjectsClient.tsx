@@ -1,8 +1,13 @@
 'use client'
 import React from 'react'
 import ProjectCard from './ProjectCard'
+import { Project } from '../types'
 
-export default function ProjectsClient({ projects }) {
+interface ProjectsClientProps {
+  projects: Project[]
+}
+
+export default function ProjectsClient({ projects }: ProjectsClientProps) {
   return (
     <section id="projects" className="py-24">
       <div className="max-w-6xl mx-auto px-6">
@@ -19,7 +24,7 @@ export default function ProjectsClient({ projects }) {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.isArray(projects) && projects.map((project, index) => (
-            <ProjectCard key={project._id || project.title} project={project} index={index} />
+            <ProjectCard key={project._id || project.id || project.title} project={project} index={index} />
           ))}
         </div>
 

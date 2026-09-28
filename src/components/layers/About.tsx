@@ -1,23 +1,24 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useRef, useCallback } from 'react'
 import { SiNextdotjs, SiExpress, SiNodedotjs, SiMongodb } from 'react-icons/si'
 import { FiPackage } from 'react-icons/fi'
 import { FaDumbbell, FaGlobeAsia, FaMapMarkerAlt } from 'react-icons/fa'
 import Image from 'next/image'
 import neyamul from '../../../public/neyamul.png'
+import { QuickFact } from '../../types'
 
-const quickFacts = [
+const quickFacts: QuickFact[] = [
   { icon: <FaGlobeAsia size={14} />, label: 'Based in Bangladesh', color: '#4ade80' },
   { icon: <FiPackage size={14} />, label: 'MERN Stack', color: '#a78bfa' },
   { icon: <FaDumbbell size={14} />, label: 'Anime & discipline', color: '#f472b6' },
 ]
 
 export default function About() {
-  const sectionRef = useRef(null)
-  const spotlightRef = useRef(null)
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const spotlightRef = useRef<HTMLDivElement | null>(null)
 
-  const handleMouseMove = useCallback((e) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const rect = sectionRef.current?.getBoundingClientRect()
     if (!rect || !spotlightRef.current) return
     const x = ((e.clientX - rect.left) / rect.width) * 100
@@ -201,9 +202,9 @@ export default function About() {
 // Profile photo — slow rotating halo behind it, a status ribbon in the corner,
 // and one glass tech pill anchored to the bottom edge instead of loose floating icons
 function PhotoCard() {
-  const cardRef = useRef(null)
+  const cardRef = useRef<HTMLDivElement | null>(null)
 
-  const handleMove = (e) => {
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = cardRef.current
     if (!el) return
     const rect = el.getBoundingClientRect()
@@ -271,8 +272,15 @@ function PhotoCard() {
   )
 }
 
+interface InfoRowProps {
+  label: string
+  value: React.ReactNode
+  highlight?: boolean
+  live?: boolean
+}
+
 // Info row used in the about text
-function InfoRow({ label, value, highlight, live }) {
+function InfoRow({ label, value, highlight, live }: InfoRowProps) {
   return (
     <div className="flex items-center gap-3">
       <span className="text-gray-600 w-24 text-sm flex-shrink-0">{label}:</span>

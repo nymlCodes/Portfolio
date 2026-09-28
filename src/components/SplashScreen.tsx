@@ -1,8 +1,12 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function SplashScreen({ onFinished }) {
+interface SplashScreenProps {
+  onFinished?: () => void
+}
+
+export default function SplashScreen({ onFinished }: SplashScreenProps) {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {

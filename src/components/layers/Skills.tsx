@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { FaBook } from 'react-icons/fa'
 import { VscVscode } from 'react-icons/vsc'
 import { SiGithub, SiFigma, SiNpm, SiVite, SiReactrouter, SiVercel } from 'react-icons/si'
 import { MdOutlineDeveloperMode } from 'react-icons/md'
+import { SkillGroup, ToolItem, SkillItem } from '../../types'
 
-const skillGroups = [
+const skillGroups: SkillGroup[] = [
   {
     category: 'Frontend',
     skills: [
@@ -33,7 +34,7 @@ const skillGroups = [
   },
 ]
 
-const tools = [
+const tools: ToolItem[] = [
   { name: 'VS Code', icon: VscVscode, color: '#007ACC' },
   { name: 'GitHub', icon: SiGithub, color: '#e5e5e5' },
   { name: 'Figma', icon: SiFigma, color: '#F24E1E' },
@@ -44,7 +45,7 @@ const tools = [
   { name: 'Vercel', icon: SiVercel, color: '#e5e5e5' },
 ]
 
-const learning = [
+const learning: string[] = [
   // 'Role Based Access Control (RBAC)',
   'TypeScript',
   'PostgreeSQL',
@@ -53,8 +54,8 @@ const learning = [
 
 export default function Skills() {
   const [animated, setAnimated] = useState(false)
-  const sectionRef = useRef(null)
-  const spotlightRef = useRef(null)
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const spotlightRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -70,7 +71,7 @@ export default function Skills() {
     return () => observer.disconnect()
   }, [])
 
-  const handleMouseMove = useCallback((e) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const rect = sectionRef.current?.getBoundingClientRect()
     if (!rect || !spotlightRef.current) return
     const x = ((e.clientX - rect.left) / rect.width) * 100
@@ -244,7 +245,7 @@ export default function Skills() {
                 <span className="text-purple-300 font-mono font-bold text-sm">MERN</span>
               </div>
 
-              <div className="orbit-ring absolute inset-0" style={{ '--dur': '28s' }}>
+              <div className="orbit-ring absolute inset-0" style={{ '--dur': '28s' } as React.CSSProperties}>
                 <div className="absolute top-1/2 left-1/2 w-0 h-0 orbit-comet">
                   <div className="-translate-x-1/2 -translate-y-1/2" style={{ transform: 'translateX(140px)' }}>
                     <div
@@ -266,7 +267,7 @@ export default function Skills() {
                     >
                       <div
                         className="orbit-counter -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full bg-card border border-purple-700/30 hover:scale-125 hover:border-purple-400 transition-transform duration-300"
-                        style={{ '--dur': '28s' }}
+                        style={{ '--dur': '28s' } as React.CSSProperties}
                         title={tool.name}
                       >
                         <Icon className="text-lg" style={{ color: tool.color }} />
@@ -323,11 +324,16 @@ export default function Skills() {
   )
 }
 
-// Terminal wrapper: animated conic-gradient border + subtle 3D tilt following the cursor
-function TiltCard({ animated, children }) {
-  const cardRef = useRef(null)
+interface TiltCardProps {
+  animated: boolean
+  children: React.ReactNode
+}
 
-  const handleMove = (e) => {
+// Terminal wrapper: animated conic-gradient border + subtle 3D tilt following the cursor
+function TiltCard({ animated, children }: TiltCardProps) {
+  const cardRef = useRef<HTMLDivElement | null>(null)
+
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = cardRef.current
     if (!el) return
     const rect = el.getBoundingClientRect()
@@ -357,8 +363,12 @@ function TiltCard({ animated, children }) {
   )
 }
 
+interface TerminalBodyProps {
+  start: boolean
+}
+
 // Monospace "code" block that types itself out once, then blinks a cursor forever
-function TerminalBody({ start }) {
+function TerminalBody({ start }: TerminalBodyProps) {
   const lines = [
     { text: 'const developer = {', indent: 0 },
     { text: "role: 'MERN Stack Developer',", indent: 1 },
@@ -394,9 +404,9 @@ function TerminalBody({ start }) {
       setCharCount(0)
     }, 120)
     return () => clearTimeout(t)
-  }, [started, charCount, lineIndex, done])
+  }, [started, charCount, lineIndex, done, lines])
 
-  const colorFor = (text) =>
+  const colorFor = (text: string) =>
     text
       .replace(/'([^']*)'/g, `<span class="text-yellow-300">'$1'</span>`)
       .replace(/\b(true|false)\b/g, `<span class="text-pink-400">$1</span>`)
@@ -426,8 +436,14 @@ function TerminalBody({ start }) {
   )
 }
 
+interface SkillBarProps {
+  skill: SkillItem
+  animated: boolean
+  delay: number
+}
+
 // Horizontal skill bar with count-up and a continuous shimmer sweep across the fill
-function SkillBar({ skill, animated, delay }) {
+function SkillBar({ skill, animated, delay }: SkillBarProps) {
   const [displayValue, setDisplayValue] = useState(0)
   const [entered, setEntered] = useState(false)
 
@@ -435,10 +451,10 @@ function SkillBar({ skill, animated, delay }) {
     if (!animated) return
     const enterTimer = setTimeout(() => setEntered(true), delay)
     const duration = 1100
-    let rafId
+    let rafId: number
     const countTimer = setTimeout(() => {
       const startTime = performance.now()
-      const tick = (now) => {
+      const tick = (now: number) => {
         const elapsed = now - startTime
         const progress = Math.min(elapsed / duration, 1)
         const eased = 1 - Math.pow(1 - progress, 3)
@@ -484,8 +500,16 @@ function SkillBar({ skill, animated, delay }) {
   )
 }
 
+interface TypewriterListProps {
+  items: string[]
+  start: boolean
+  startDelay?: number
+  charSpeed?: number
+  lineGap?: number
+}
+
 // Types out a list of strings one after another, character by character, loops with a trailing blinking cursor
-function TypewriterList({ items, start, startDelay = 0, charSpeed = 30, lineGap = 300 }) {
+function TypewriterList({ items, start, startDelay = 0, charSpeed = 30, lineGap = 300 }: TypewriterListProps) {
   const [lineIndex, setLineIndex] = useState(0)
   const [charCount, setCharCount] = useState(0)
   const [started, setStarted] = useState(false)
