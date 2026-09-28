@@ -176,9 +176,10 @@ D. GLOBAL UI COMPONENTS (`src/components/`)
      and disables particles if the user has `prefers-reduced-motion` enabled.
 
 5. `src/components/Cursor.tsx`
-   - Custom trailing cursor for desktop mouse/trackpad users.
-   - Features a precision dot, smooth lagging ring, and trailing dust particles.
-   - Optimized with `transform: translate3d(...)` to eliminate browser layout reflows.
+   - Custom bold interactive cursor for desktop mouse/trackpad users.
+   - Features a 10px glowing center dot, a 38px outer magnetic ring with breathing drop-shadow pulse,
+     and 8 cascading trail dust particles with rich purple luminescence.
+   - Fluid, slower physics with micro-gliding and magnetic float lag.
    - Automatically disabled on touch screens and mobile devices (`(pointer: fine)` check).
 
 6. `src/components/ProjectCard.tsx`
