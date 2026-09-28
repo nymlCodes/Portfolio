@@ -121,11 +121,13 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         <div className="relative bg-card rounded-2xl p-5 flex flex-col h-full overflow-hidden transition-transform duration-300 ease-out group-hover:-translate-y-1">
 
           {/* Thumbnail */}
-          <div className="thumb-wrap w-full h-44 rounded-xl mb-4">
+          <div className="thumb-wrap relative w-full h-44 rounded-xl mb-4">
             <Image
               src={project.thumbnail}
               alt={project.title}
-              className="thumb-img w-full h-full object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="thumb-img object-cover"
             />
             <div className="thumb-fade absolute inset-0 pointer-events-none" />
 
